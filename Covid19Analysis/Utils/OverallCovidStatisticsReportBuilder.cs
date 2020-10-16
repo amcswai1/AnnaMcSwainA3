@@ -5,7 +5,7 @@ using Covid19Analysis.Model;
 namespace Covid19Analysis.Utils
 
 {
-    internal class OverallCovidStatisticsStringBuilder
+    internal class OverallCovidStatisticsReportBuilder
     {
         #region Data members
 
@@ -13,7 +13,7 @@ namespace Covid19Analysis.Utils
         private readonly string integerFormat = "N0";
         private readonly string doubleFormat = "#,#.##";
         private readonly double segmentRange = 500.0;
-        private readonly CovidStatisticsHistogramStringBuilder histogramBuilder;
+        private readonly CovidStatisticsHistogramReportBuilder histogramBuilder;
 
         #endregion
 
@@ -40,13 +40,13 @@ namespace Covid19Analysis.Utils
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OverallCovidStatisticsStringBuilder" /> class.
+        ///     Initializes a new instance of the <see cref="OverallCovidStatisticsReportBuilder" /> class.
         /// </summary>
         /// <param name="statisticsList">The statistics list.</param>
-        public OverallCovidStatisticsStringBuilder(List<CovidStatistic> statisticsList)
+        public OverallCovidStatisticsReportBuilder(List<CovidStatistic> statisticsList)
         {
             this.overallCalculator = new OverallCovidStatisticsCalculator(statisticsList);
-            this.histogramBuilder = new CovidStatisticsHistogramStringBuilder(statisticsList);
+            this.histogramBuilder = new CovidStatisticsHistogramReportBuilder(statisticsList);
         }
 
         #endregion

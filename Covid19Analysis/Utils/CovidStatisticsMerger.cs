@@ -3,21 +3,20 @@ using System.Linq;
 using Covid19Analysis.Model;
 
 namespace Covid19Analysis.Utils
-
 {
-    class CovidStatisticsListMerger
+    class CovidStatisticsMerger
     {
-        private readonly List<CovidStatistic> existingStatistics;
-        private readonly List<CovidStatistic> incomingStatistics;
-        private readonly List<CovidStatistic> duplicateStatistics;
+        private readonly IList<CovidStatistic> existingStatistics;
+        private readonly IList<CovidStatistic> incomingStatistics;
+        private readonly IList<CovidStatistic> duplicateStatistics;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CovidStatisticsListMerger"/> class.
+        /// Initializes a new instance of the <see cref="CovidStatisticsMerger"/> class.
         /// </summary>
         /// <param name="existingStatistics">The existing list.</param>
         /// <param name="incomingStatistics">The list to merge.</param>
         /// <param name="duplicateStatistics">The duplicates list.</param>
-        public CovidStatisticsListMerger(List<CovidStatistic> existingStatistics, List<CovidStatistic> incomingStatistics, List<CovidStatistic> duplicateStatistics)
+        public CovidStatisticsMerger(IList<CovidStatistic> existingStatistics, IList<CovidStatistic> incomingStatistics, IList<CovidStatistic> duplicateStatistics)
         {
             this.existingStatistics = existingStatistics;
             this.duplicateStatistics = duplicateStatistics;
@@ -31,22 +30,18 @@ namespace Covid19Analysis.Utils
         public IList<CovidStatistic> KeepAllExistingData()
         {
             IList<CovidStatistic> toRemove = new List<CovidStatistic>();
-
             foreach (var duplicate in this.duplicateStatistics)
             {
-                var existingDuplicate = this.existingStatistics.Find(statistic => statistic.Date == duplicate.Date);
+                var existingDuplicate = this.existingStatistics.ToList().Find(statistic => statistic.Date == duplicate.Date);
                 toRemove.Add(existingDuplicate);
             }
-
             var combinedStatistics = this.existingStatistics.Concat(this.incomingStatistics).ToList();
             System.Diagnostics.Debug.Write(combinedStatistics.ToString());
             foreach (var duplicate in toRemove)
             {
                 combinedStatistics.Remove(duplicate);
             }
-
             return combinedStatistics.ToList();
-
         }
 
         /// <summary>
@@ -57,16 +52,14 @@ namespace Covid19Analysis.Utils
             IList<CovidStatistic> toRemove = new List<CovidStatistic>();
             foreach(var duplicate in this.duplicateStatistics)
             {
-                var existingDuplicate = this.existingStatistics.Find(statistic => statistic.Date == duplicate.Date);
+                var existingDuplicate = this.existingStatistics.ToList().Find(statistic => statistic.Date == duplicate.Date);
                 toRemove.Add(existingDuplicate);
             }
-            
             var combinedStatistics = this.existingStatistics.Concat(this.incomingStatistics).ToList();
             foreach (var duplicate in toRemove){
                 combinedStatistics.Remove(duplicate);
             }
             return combinedStatistics.ToList();
-
         }
         
         /// <summary>
@@ -77,7 +70,6 @@ namespace Covid19Analysis.Utils
         public void KeepExistingDataForCurrentDuplicate(CovidStatistic duplicateItem)
         {
             this.incomingStatistics.Remove(duplicateItem);
-           
         }
 
         /// <summary>
@@ -86,7 +78,7 @@ namespace Covid19Analysis.Utils
         /// <param name="duplicateItem">The duplicate item.</param>
         public void ReplaceOneCurrentDataWithNewData(CovidStatistic duplicateItem)
         {
-            var existingDuplicate = this.existingStatistics.Find(statistic => statistic.Date == duplicateItem.Date);
+            var existingDuplicate = this.existingStatistics.ToList().Find(statistic => statistic.Date == duplicateItem.Date);
             this.existingStatistics.Remove(existingDuplicate);
         }
 

@@ -14,7 +14,7 @@
             </CommandBar.Content>
             <AppBarButton Icon="OpenFile" Label="Load File" Click="loadFile_Click"/>
         </CommandBar>
-        <TextBox x:Name="summaryTextBox" FontFamily="Monospaced"  HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top" TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True" AutomationProperties.Name="summaryTextBlock"/>
+        <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top" TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True" AutomationProperties.Name="summaryTextBlock" FontFamily="Courier New" />
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="COVID-19 Analysis"/>
         <TextBox x:Name="upperBoundTextBox" HorizontalAlignment="Left" Margin="120,361,0,0" Text="2500" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="upperBound_TextChanged"/>
         <TextBox x:Name="lowerBoundTextBox" HorizontalAlignment="Left" Margin="295,361,0,0" Text="1000" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="lowerBound_TextChanged"/>

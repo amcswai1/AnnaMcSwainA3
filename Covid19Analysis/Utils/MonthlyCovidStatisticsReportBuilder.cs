@@ -7,7 +7,7 @@ using Covid19Analysis.Model;
 namespace Covid19Analysis.Utils
 
 {
-    internal class MonthlyCovidStatisticsStringBuilder
+    internal class MonthlyCovidStatisticsReportBuilder
     {
         #region Data members
 
@@ -20,10 +20,10 @@ namespace Covid19Analysis.Utils
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MonthlyCovidStatisticsStringBuilder" /> class.
+        ///     Initializes a new instance of the <see cref="MonthlyCovidStatisticsReportBuilder" /> class.
         /// </summary>
         /// <param name="statisticsList">The statistics statistics.</param>
-        public MonthlyCovidStatisticsStringBuilder(List<CovidStatistic> statisticsList)
+        public MonthlyCovidStatisticsReportBuilder(List<CovidStatistic> statisticsList)
         {
             this.monthlyCalculator = new MonthlyCovidStatisticsCalculator(statisticsList);
         }
@@ -116,14 +116,12 @@ namespace Covid19Analysis.Utils
         private string findCovidDataByMonthInteger(int month)
         {
             var monthStatistics = this.monthlyCalculator.FindAllStatisticsInMonth(month);
-
             var output = "(Number of days loaded: " + monthStatistics.Count + ")";
             if (monthStatistics.Count == 0)
             {
                 return output + Environment.NewLine + "No statistics were recorded for this month." +
                        Environment.NewLine;
             }
-
             output += this.highestNumberOfPositiveCasesToString(monthStatistics);
             output += this.lowestNumberOfPositiveCasesToString(monthStatistics);
             output += this.highestTotalTestsToString(monthStatistics);
@@ -131,7 +129,6 @@ namespace Covid19Analysis.Utils
             output += this.averageNumberPositiveTestsPerDayToString(monthStatistics);
             output += this.averageTotalNumberTestsPerDayToString(monthStatistics);
             output += Environment.NewLine;
-
             return output;
         }
 
@@ -159,7 +156,6 @@ namespace Covid19Analysis.Utils
                 var day = statistics.First().Date;
                 output += dateWithSuffixToString(day);
             }
-
             return output;
         }
 
@@ -188,10 +184,8 @@ namespace Covid19Analysis.Utils
                               this.monthlyCalculator.FindMissingMonthsYear(monthStatistics);
                     output += this.findCovidDataByMonthInteger(currentMonth);
                 }
-
                 currentMonth++;
             }
-
             return output;
         }
 

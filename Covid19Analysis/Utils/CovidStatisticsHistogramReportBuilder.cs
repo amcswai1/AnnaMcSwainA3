@@ -3,22 +3,20 @@ using System;
 using System.Collections.Generic;
 
 namespace Covid19Analysis.Utils
-
-
 {
     /// <summary>
     /// Represents the string representation for the covid statistics histogram data
     /// </summary>
-    class CovidStatisticsHistogramStringBuilder
+    class CovidStatisticsHistogramReportBuilder
     {
-
+        
         private readonly CovidStatisticsHistogramCalculator histogramCalculator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CovidStatisticsHistogramStringBuilder"/> class.
+        /// Initializes a new instance of the <see cref="CovidStatisticsHistogramReportBuilder"/> class.
         /// </summary>
         /// <param name="statisticsList">The statistics list.</param>
-        public CovidStatisticsHistogramStringBuilder(List<CovidStatistic> statisticsList)
+        public CovidStatisticsHistogramReportBuilder(List<CovidStatistic> statisticsList)
         {
             this.histogramCalculator = new CovidStatisticsHistogramCalculator(statisticsList);
         }
@@ -39,7 +37,6 @@ namespace Covid19Analysis.Utils
                 rangeStart = rangeEnd + 1;
                 rangeEnd = (range * (i + 2));
             }
-            
             return output;
         }
     }

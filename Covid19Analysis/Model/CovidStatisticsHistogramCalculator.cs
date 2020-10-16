@@ -10,10 +10,10 @@ namespace Covid19Analysis.Model
     class CovidStatisticsHistogramCalculator
     {
         private readonly List<CovidStatistic> statisticsList;
+        private const int NeutralizeBuffer = 5;
         public CovidStatisticsHistogramCalculator(List<CovidStatistic> statisticsList)
         {
             this.statisticsList = statisticsList;
-            
         }
         /// <summary>
         /// Counts the statistics positive cases within given range.
@@ -32,16 +32,10 @@ namespace Covid19Analysis.Model
             foreach(var statistic in this.statisticsList)
             {
                 var positiveIncreaseValue = statistic.PositiveIncrease;
-                int segmentNumber = (int)((positiveIncreaseValue - 5) / range);
+                int segmentNumber = (int)((positiveIncreaseValue - CovidStatisticsHistogramCalculator.NeutralizeBuffer) / range);
                 positiveIncreaseCount[segmentNumber]++;
             }
             return positiveIncreaseCount;
-
-
         }
-
-      
-
-        
     }
 }

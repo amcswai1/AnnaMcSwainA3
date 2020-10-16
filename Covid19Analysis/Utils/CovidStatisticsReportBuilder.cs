@@ -4,18 +4,18 @@ using Covid19Analysis.Model;
 
 namespace Covid19Analysis.Utils
 {
-    class CovidStatisticsStringBuilder
+    class CovidStatisticsReportBuilder
     {
-        private readonly OverallCovidStatisticsStringBuilder overallCovidStatisticsStringBuilder;
-        private readonly MonthlyCovidStatisticsStringBuilder monthlyCovidStatisticsStringBuilder;
+        private readonly OverallCovidStatisticsReportBuilder overallCovidStatisticsStringBuilder;
+        private readonly MonthlyCovidStatisticsReportBuilder monthlyCovidStatisticsStringBuilder;
         /// <summary>
-        /// Initializes a new instance of the <see cref="CovidStatisticsStringBuilder"/> class.
+        /// Initializes a new instance of the <see cref="CovidStatisticsReportBuilder"/> class.
         /// </summary>
         /// <param name="statisticsList">The statistics list.</param>
-        public CovidStatisticsStringBuilder(List<CovidStatistic> statisticsList)
+        public CovidStatisticsReportBuilder(List<CovidStatistic> statisticsList)
         {
-            this.overallCovidStatisticsStringBuilder = new OverallCovidStatisticsStringBuilder(statisticsList);
-            this.monthlyCovidStatisticsStringBuilder = new MonthlyCovidStatisticsStringBuilder(statisticsList);
+            this.overallCovidStatisticsStringBuilder = new OverallCovidStatisticsReportBuilder(statisticsList);
+            this.monthlyCovidStatisticsStringBuilder = new MonthlyCovidStatisticsReportBuilder(statisticsList);
         }
         /// <summary>
         /// Builds the string for output to the summary.
@@ -38,6 +38,5 @@ namespace Covid19Analysis.Utils
             this.overallCovidStatisticsStringBuilder.LowerBoundInput = lowerLimit;
             this.overallCovidStatisticsStringBuilder.UpperBoundInput = upperLimit;
         }
-    
     }
 }

@@ -10,6 +10,7 @@ namespace Covid19Analysis.Model
     public class MonthlyCovidStatisticsCalculator
     {
         #region Fields
+        
         private readonly List<CovidStatistic> statisticsList;
         private readonly DateTime startingDate;
         private readonly DateTime endingDate;
@@ -32,7 +33,8 @@ namespace Covid19Analysis.Model
 
         #endregion
 
-        #region Public Methods        
+        #region Public Methods  
+        
         /// <summary>
         /// Finds the highest number of positive tests.
         /// </summary>
@@ -89,9 +91,7 @@ namespace Covid19Analysis.Model
             {
                 positiveIncreases.Add(statistic.PositiveIncrease);
             }
-
             return positiveIncreases.Average();
-
         }
         /// <summary>
         /// Finds the average total tests.
@@ -105,9 +105,7 @@ namespace Covid19Analysis.Model
             {
                 totalTests.Add(statistic.PositiveIncrease + statistic.NegativeIncrease);
             }
-
             return totalTests.Average();
-
         }
         /// <summary>
         /// Finds the starting month integer.
@@ -161,7 +159,6 @@ namespace Covid19Analysis.Model
             List<CovidStatistic> statisticsInMonth = this.statisticsList.FindAll(statistic => statistic.Date.Month == month);
             return statisticsInMonth;
         }
-      
 
         #endregion
 

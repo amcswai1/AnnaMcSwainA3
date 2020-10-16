@@ -75,16 +75,16 @@ namespace Covid19Analysis
             if (this.summaryTextBox.Text == "Summary")
             {
                 CovidCsvParser parser = new CovidCsvParser();
-                this.statisticsCurrentlyLoaded = parser.ParseText(text);
-                this.errors = parser.Errors;
+                this.statisticsCurrentlyLoaded = parser.ParseText(text).ToList();
+                this.errors = parser.Errors.ToList();
                 this.setCovidDataToSummaryBox();
             }
             else
             {
                 this.statisticsToAddOrReplace.Clear();
                 CovidCsvParser parser = new CovidCsvParser();
-                this.statisticsToAddOrReplace = parser.ParseText(text);
-                this.errors = parser.Errors;
+                this.statisticsToAddOrReplace = parser.ParseText(text).ToList();
+                this.errors = parser.Errors.ToList();
                 this.displayMergeOption();
 
 
@@ -93,7 +93,7 @@ namespace Covid19Analysis
 
         private void setCovidDataToSummaryBox()
         {
-            CovidStatisticsStringBuilder stringBuilder = new CovidStatisticsStringBuilder(this.statisticsCurrentlyLoaded);
+            CovidStatisticsReportBuilder stringBuilder = new CovidStatisticsReportBuilder(this.statisticsCurrentlyLoaded);
             stringBuilder.SetUpperAndLowerBoundLimits(this.upperBoundInput, this.lowerBoundInput);
             this.summaryTextBox.Text = "Summary" + Environment.NewLine + stringBuilder.BuildStringForOutput();
         }
@@ -124,7 +124,7 @@ namespace Covid19Analysis
             
             foreach (var duplicate in this.duplicatesFound)
             {
-               CovidStatisticsListMerger merger = new CovidStatisticsListMerger(this.statisticsCurrentlyLoaded, this.statisticsToAddOrReplace, this.duplicatesFound);
+               CovidStatisticsMerger merger = new CovidStatisticsMerger(this.statisticsCurrentlyLoaded, this.statisticsToAddOrReplace, this.duplicatesFound);
                 KeepOrReplaceContentDialog keepOrReplaceDialog = new KeepOrReplaceContentDialog();
                 var result = await keepOrReplaceDialog.ShowAsync();
                 if (result == ContentDialogResult.Primary)

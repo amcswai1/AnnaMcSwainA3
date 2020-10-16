@@ -137,7 +137,6 @@ namespace Covid19Analysis.Model
             {
                positiveCases.Add(statistic.PositiveIncrease);
             }
-
             return positiveCases.Average();
         }
 

@@ -8,6 +8,7 @@ namespace Covid19Analysis.Model
     public class CovidStatistic
     {
         #region Fields
+
         /// <summary>
         /// Gets or sets the date of the recorded statistic.
         /// </summary>
@@ -50,9 +51,11 @@ namespace Covid19Analysis.Model
         /// The percent positive increase in cases recorded.
         /// </value>
         public double PercentPositiveIncrease { get; set; }
+        
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CovidStatistic"/> class.
         /// </summary>
@@ -65,9 +68,11 @@ namespace Covid19Analysis.Model
             Hospitalized = hospitalized;
             PercentPositiveIncrease = this.GetPercentPositiveIncrease();
         }
+        
         #endregion
 
         #region Public Methods
+
         /// <summary>
         /// Gets the numerical value of the percent positive increase in covid cases.
         /// </summary>
@@ -77,8 +82,7 @@ namespace Covid19Analysis.Model
 
             return (Convert.ToDouble(this.PositiveIncrease)) / (Convert.ToDouble(this.PositiveIncrease + this.NegativeIncrease)) * 100;
         }
+        
         #endregion
-
-
     }
 }
