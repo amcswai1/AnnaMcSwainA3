@@ -1,0 +1,15 @@
+﻿<ContentDialog
+    x:Class="Covid19Analysis.View.MergeContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Duplicate Data Found"
+    PrimaryButtonText="Merge"
+    SecondaryButtonText="Replace">
+
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Text="What would you like to do with the duplicate data?"/>
+    </Grid>
+</ContentDialog>
