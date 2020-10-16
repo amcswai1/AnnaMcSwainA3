@@ -11,7 +11,7 @@ namespace Covid19Analysis.Model
     {
         #region Fields
         
-        private readonly List<CovidStatistic> statisticsList;
+        private readonly IList<CovidStatistic> statistics;
         private readonly DateTime startingDate;
         private readonly DateTime endingDate;
         
@@ -22,12 +22,12 @@ namespace Covid19Analysis.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MonthlyCovidStatisticsCalculator"/> class.
         /// </summary>
-        /// <param name="statisticsList">The statistics list.</param>
-        public MonthlyCovidStatisticsCalculator(List<CovidStatistic> statisticsList)
+        /// <param name="statistics">The statistics list.</param>
+        public MonthlyCovidStatisticsCalculator(IList<CovidStatistic> statistics)
         {
-            this.startingDate = statisticsList.Min(statistic => statistic.Date);
-            this.endingDate = statisticsList.Max(statistic => statistic.Date);
-            this.statisticsList = statisticsList;
+            this.startingDate = statistics.Min(statistic => statistic.Date);
+            this.endingDate = statistics.Max(statistic => statistic.Date);
+            this.statistics = statistics;
           
         }
 
@@ -40,10 +40,10 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="statisticsOfMonth">The statistics of month.</param>
         /// <returns>the list of matching highest number of positive tests recorded</returns>
-        public List<CovidStatistic> FindAllHighestNumberOfPositiveTests(List<CovidStatistic> statisticsOfMonth)
+        public IList<CovidStatistic> FindAllHighestNumberOfPositiveTests(IList<CovidStatistic> statisticsOfMonth)
         {
-            int highestPositiveIncrease = statisticsOfMonth.Max(statistic => statistic.PositiveIncrease);
-            List<CovidStatistic> foundStatistic = this.statisticsList.FindAll(statistic => statistic.PositiveIncrease == highestPositiveIncrease);
+            var highestPositiveIncrease = statisticsOfMonth.Max(statistic => statistic.PositiveIncrease);
+            var foundStatistic = this.statistics.ToList().FindAll(statistic => statistic.PositiveIncrease == highestPositiveIncrease);
             return foundStatistic;
         }
         /// <summary>
@@ -51,10 +51,10 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="statisticsOfMonth">The statistics of month.</param>
         /// <returns>the list of matching lowest number of positive tests recorded</returns>
-        public List<CovidStatistic> FindAllLowestNumberOfPositiveTests(List<CovidStatistic> statisticsOfMonth)
+        public IList<CovidStatistic> FindAllLowestNumberOfPositiveTests(IList<CovidStatistic> statisticsOfMonth)
         {
-            int lowestPositiveIncrease = statisticsOfMonth.Min(statistic => statistic.PositiveIncrease);
-            List<CovidStatistic> foundStatistic = this.statisticsList.FindAll(statistic => statistic.PositiveIncrease == lowestPositiveIncrease);
+            var lowestPositiveIncrease = statisticsOfMonth.Min(statistic => statistic.PositiveIncrease);
+            var foundStatistic = this.statistics.ToList().FindAll(statistic => statistic.PositiveIncrease == lowestPositiveIncrease);
             return foundStatistic;
         }
         /// <summary>
@@ -62,10 +62,10 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="statisticsOfMonth">The statistics of month.</param>
         /// <returns>the list of matching highest tests recorded</returns>
-        public List<CovidStatistic> FindAllHighestTotalOfTests(List<CovidStatistic> statisticsOfMonth)
+        public IList<CovidStatistic> FindAllHighestTotalOfTests(IList<CovidStatistic> statisticsOfMonth)
         {
-            int totalTests = statisticsOfMonth.Max(statistic => statistic.PositiveIncrease + statistic.NegativeIncrease);
-            List<CovidStatistic> foundStatistic = this.statisticsList.FindAll(statistic => statistic.PositiveIncrease + statistic.NegativeIncrease == totalTests);
+            var totalTests = statisticsOfMonth.Max(statistic => statistic.PositiveIncrease + statistic.NegativeIncrease);
+            var foundStatistic = this.statistics.ToList().FindAll(statistic => statistic.PositiveIncrease + statistic.NegativeIncrease == totalTests);
             return foundStatistic;
         }
         /// <summary>
@@ -73,10 +73,10 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="statisticsOfMonth">The statistics of month.</param>
         /// <returns>the list of matching lowest recorded tests</returns>
-        public List<CovidStatistic> FindAllLowestTotalOfTests(List<CovidStatistic> statisticsOfMonth)
+        public IList<CovidStatistic> FindAllLowestTotalOfTests(IList<CovidStatistic> statisticsOfMonth)
         {
             var totalTests = statisticsOfMonth.Min(statistic => statistic.PositiveIncrease + statistic.NegativeIncrease);
-            List<CovidStatistic> foundStatistic = this.statisticsList.FindAll(statistic => statistic.PositiveIncrease + statistic.NegativeIncrease == totalTests);
+            var foundStatistic = this.statistics.ToList().FindAll(statistic => statistic.PositiveIncrease + statistic.NegativeIncrease == totalTests);
             return foundStatistic;
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="statisticsOfMonth">The statistics of month.</param>
         /// <returns>the average positive tests taken recorded</returns>
-        public double FindAveragePositiveTests(List<CovidStatistic> statisticsOfMonth)
+        public double FindAveragePositiveTests(IList<CovidStatistic> statisticsOfMonth)
         {
             var positiveIncreases = new List<int>();
             foreach (CovidStatistic statistic in statisticsOfMonth)
@@ -98,7 +98,7 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="statisticsOfMonth">The statistics of month.</param>
         /// <returns>the average total of tests taken recorded</returns>
-        public double FindAverageTotalTests(List<CovidStatistic> statisticsOfMonth)
+        public double FindAverageTotalTests(IList<CovidStatistic> statisticsOfMonth)
         {
             var totalTests = new List<int>();
             foreach (CovidStatistic statistic in statisticsOfMonth)
@@ -120,7 +120,7 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="statisticsOfMonth">The statistics of month.</param>
         /// <returns>the year associated with the month's integer</returns>
-        public int FindYearAssociatedWithMonth(List<CovidStatistic> statisticsOfMonth)
+        public int FindYearAssociatedWithMonth(IList<CovidStatistic> statisticsOfMonth)
         {
             return statisticsOfMonth.First().Date.Year;
         }
@@ -137,7 +137,7 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="monthStatistics">The month statistics.</param>
         /// <returns>the month with no recorded data year</returns>
-        public int FindMissingMonthsYear(List<CovidStatistic> monthStatistics)
+        public int FindMissingMonthsYear(IList<CovidStatistic> monthStatistics)
         {
             
             if (monthStatistics.Count == 0)
@@ -154,9 +154,9 @@ namespace Covid19Analysis.Model
         /// </summary>
         /// <param name="month">The month.</param>
         /// <returns>all statistics associated with the months integer</returns>
-        public List<CovidStatistic> FindAllStatisticsInMonth(int month)
+        public IList<CovidStatistic> FindAllStatisticsInMonth(int month)
         {
-            List<CovidStatistic> statisticsInMonth = this.statisticsList.FindAll(statistic => statistic.Date.Month == month);
+            var statisticsInMonth = this.statistics.ToList().FindAll(statistic => statistic.Date.Month == month);
             return statisticsInMonth;
         }
 

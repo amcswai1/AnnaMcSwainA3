@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Covid19Analysis.Model;
 
 namespace Covid19Analysis.Utils
@@ -12,7 +11,7 @@ namespace Covid19Analysis.Utils
         /// Initializes a new instance of the <see cref="CovidStatisticsReportBuilder"/> class.
         /// </summary>
         /// <param name="statisticsList">The statistics list.</param>
-        public CovidStatisticsReportBuilder(List<CovidStatistic> statisticsList)
+        public CovidStatisticsReportBuilder(IList<CovidStatistic> statisticsList)
         {
             this.overallCovidStatisticsStringBuilder = new OverallCovidStatisticsReportBuilder(statisticsList);
             this.monthlyCovidStatisticsStringBuilder = new MonthlyCovidStatisticsReportBuilder(statisticsList);
@@ -23,7 +22,7 @@ namespace Covid19Analysis.Utils
         /// <returns>the string to set the summary box to</returns>
         public string BuildStringForOutput()
         {
-            string output = String.Empty;
+            string output = string.Empty;
             output += this.overallCovidStatisticsStringBuilder.OverallDataToString();
             output += this.monthlyCovidStatisticsStringBuilder.MonthlyDataToString();
             return output;

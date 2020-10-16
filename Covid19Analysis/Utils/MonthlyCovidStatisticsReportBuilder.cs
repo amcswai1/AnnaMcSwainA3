@@ -22,10 +22,10 @@ namespace Covid19Analysis.Utils
         /// <summary>
         ///     Initializes a new instance of the <see cref="MonthlyCovidStatisticsReportBuilder" /> class.
         /// </summary>
-        /// <param name="statisticsList">The statistics statistics.</param>
-        public MonthlyCovidStatisticsReportBuilder(List<CovidStatistic> statisticsList)
+        /// <param name="statistics">The statistics statistics.</param>
+        public MonthlyCovidStatisticsReportBuilder(IList<CovidStatistic> statistics)
         {
-            this.monthlyCalculator = new MonthlyCovidStatisticsCalculator(statisticsList);
+            this.monthlyCalculator = new MonthlyCovidStatisticsCalculator(statistics);
         }
 
         #endregion
@@ -57,37 +57,37 @@ namespace Covid19Analysis.Utils
             }
         }
 
-        private string highestNumberOfPositiveCasesToString(List<CovidStatistic> monthlyStatistics)
+        private string highestNumberOfPositiveCasesToString(IList<CovidStatistic> monthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllHighestNumberOfPositiveTests(monthlyStatistics);
             var highestNumberPositiveCases = statistics.First().PositiveIncrease;
             var output = Environment.NewLine + "Highest Recorded Positive Increase in Cases: " +
                          highestNumberPositiveCases.ToString(this.integerFormat) + " cases, on the " +
-                         this.formatMultipleDaysToString(statistics);
+                         this.formatMultipleDaysToString(statistics.ToList());
             return output;
         }
 
-        private string lowestNumberOfPositiveCasesToString(List<CovidStatistic> monthlyStatistics)
+        private string lowestNumberOfPositiveCasesToString(IList<CovidStatistic> monthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllLowestNumberOfPositiveTests(monthlyStatistics);
             var lowestNumberPositiveCases = statistics.First().PositiveIncrease;
             var output = Environment.NewLine + "Lowest Recorded Positive Increase in Cases: " +
                          lowestNumberPositiveCases.ToString(this.integerFormat) + " cases, on the " +
-                         this.formatMultipleDaysToString(statistics);
+                         this.formatMultipleDaysToString(statistics.ToList());
             return output;
         }
 
-        private string highestTotalTestsToString(List<CovidStatistic> monthlyStatistics)
+        private string highestTotalTestsToString(IList<CovidStatistic> monthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllHighestTotalOfTests(monthlyStatistics);
             var highestTotalTests = statistics.First().PositiveIncrease;
             var output = Environment.NewLine + "Highest Total Cases: " +
                          highestTotalTests.ToString(this.integerFormat) + " cases, on the " +
-                         this.formatMultipleDaysToString(statistics);
+                         this.formatMultipleDaysToString(statistics.ToList());
             return output;
         }
 
-        private string lowestTotalTestsToString(List<CovidStatistic> monthlyStatistics)
+        private string lowestTotalTestsToString(IList<CovidStatistic> monthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllLowestTotalOfTests(monthlyStatistics);
             var lowestTotalTests = statistics.First().PositiveIncrease;
@@ -97,15 +97,15 @@ namespace Covid19Analysis.Utils
             return output;
         }
 
-        private string averageNumberPositiveTestsPerDayToString(List<CovidStatistic> monthlyStatistics)
+        private string averageNumberPositiveTestsPerDayToString(IList<CovidStatistic> monthlyStatistics)
         {
-            var statistic = this.monthlyCalculator.FindAveragePositiveTests(monthlyStatistics);
+            var statistic = this.monthlyCalculator.FindAveragePositiveTests(monthlyStatistics.ToList());
             var output = Environment.NewLine + "Average number of positive tests per day: " +
                          statistic.ToString(this.doubleFormat);
             return output;
         }
 
-        private string averageTotalNumberTestsPerDayToString(List<CovidStatistic> monthlyStatistics)
+        private string averageTotalNumberTestsPerDayToString(IList<CovidStatistic> monthlyStatistics)
         {
             var statistic = this.monthlyCalculator.FindAverageTotalTests(monthlyStatistics);
             var output = Environment.NewLine + "Average number of total tests per day: " +
@@ -122,19 +122,19 @@ namespace Covid19Analysis.Utils
                 return output + Environment.NewLine + "No statistics were recorded for this month." +
                        Environment.NewLine;
             }
-            output += this.highestNumberOfPositiveCasesToString(monthStatistics);
-            output += this.lowestNumberOfPositiveCasesToString(monthStatistics);
-            output += this.highestTotalTestsToString(monthStatistics);
-            output += this.lowestTotalTestsToString(monthStatistics);
-            output += this.averageNumberPositiveTestsPerDayToString(monthStatistics);
-            output += this.averageTotalNumberTestsPerDayToString(monthStatistics);
+            output += this.highestNumberOfPositiveCasesToString(monthStatistics.ToList());
+            output += this.lowestNumberOfPositiveCasesToString(monthStatistics.ToList());
+            output += this.highestTotalTestsToString(monthStatistics.ToList());
+            output += this.lowestTotalTestsToString(monthStatistics.ToList());
+            output += this.averageNumberPositiveTestsPerDayToString(monthStatistics.ToList());
+            output += this.averageTotalNumberTestsPerDayToString(monthStatistics.ToList());
             output += Environment.NewLine;
             return output;
         }
 
-        private string formatMultipleDaysToString(List<CovidStatistic> statistics)
+        private string formatMultipleDaysToString(IList<CovidStatistic> statistics)
         {
-            var output = String.Empty;
+            var output = string.Empty;
             if (statistics.Count > 1)
             {
                 foreach (var statistic in statistics)

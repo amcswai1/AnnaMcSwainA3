@@ -11,7 +11,7 @@ namespace Covid19Analysis.Model
     {
         #region Data members
 
-        private readonly List<CovidStatistic> statisticsList;
+        private readonly IList<CovidStatistic> statistics;
         private readonly DateTime startingDate;
 
         #endregion
@@ -21,11 +21,11 @@ namespace Covid19Analysis.Model
         /// <summary>
         ///     Creates a StatisticsCalculator object
         /// </summary>
-        /// <param name="statisticsList">The list of statistics from the CovidStatisticsList</param>
-        public OverallCovidStatisticsCalculator(List<CovidStatistic> statisticsList)
+        /// <param name="statistics">The list of statistics from the CovidStatisticsList</param>
+        public OverallCovidStatisticsCalculator(IList<CovidStatistic> statistics)
         {
-            this.startingDate = statisticsList.Min(statistic => statistic.Date);
-            this.statisticsList = statisticsList;
+            this.startingDate = statistics.Min(statistic => statistic.Date);
+            this.statistics = statistics;
         }
 
         #endregion
@@ -39,7 +39,7 @@ namespace Covid19Analysis.Model
         public DateTime FindDateOfFirstPositiveCase()
         {
             var datesWithIncrease =
-                this.statisticsList.FindAll(statistic => statistic.PositiveIncrease > 0);
+                this.statistics.ToList().FindAll(statistic => statistic.PositiveIncrease > 0);
             DateTime firstDate = datesWithIncrease.Min(statistic => statistic.Date);
             return firstDate;
         }
@@ -51,9 +51,9 @@ namespace Covid19Analysis.Model
         public CovidStatistic FindHighestRecordedPositiveCases()
         {
             var highestPositiveIncrease =
-                this.statisticsList.Max(statistic => statistic.PositiveIncrease);
+                this.statistics.Max(statistic => statistic.PositiveIncrease);
             var foundStatistic =
-                this.statisticsList.Find(statistic =>
+                this.statistics.ToList().Find(statistic =>
                     statistic.PositiveIncrease == highestPositiveIncrease);
             return foundStatistic;
         }
@@ -65,9 +65,9 @@ namespace Covid19Analysis.Model
         public CovidStatistic FindHighestRecordedNegativeCases()
         {
             var highestNegativeIncrease =
-                this.statisticsList.Max(statistic => statistic.NegativeIncrease);
+                this.statistics.Max(statistic => statistic.NegativeIncrease);
             var foundStatistic =
-                this.statisticsList.Find(statistic =>
+                this.statistics.ToList().Find(statistic =>
                     statistic.NegativeIncrease == highestNegativeIncrease);
             return foundStatistic;
         }
@@ -79,9 +79,9 @@ namespace Covid19Analysis.Model
         public CovidStatistic FindHighestNumberOfTests()
         {
             var combinedTests =
-                this.statisticsList.Max(statistic =>
+                this.statistics.Max(statistic =>
                     statistic.NegativeIncrease + statistic.PositiveIncrease);
-            var foundStatistic = this.statisticsList.Find(statistic =>
+            var foundStatistic = this.statistics.ToList().Find(statistic =>
                 statistic.NegativeIncrease + statistic.PositiveIncrease == combinedTests);
             return foundStatistic;
         }
@@ -92,8 +92,8 @@ namespace Covid19Analysis.Model
         /// <returns>the statistic with the highest recorded number of deaths</returns>
         public CovidStatistic FindHighestRecordedDeaths()
         {
-            var highestDeaths = this.statisticsList.Max(statistic => statistic.Deaths);
-            var foundStatistic = this.statisticsList.Find(statistic => statistic.Deaths == highestDeaths);
+            var highestDeaths = this.statistics.Max(statistic => statistic.Deaths);
+            var foundStatistic = this.statistics.ToList().Find(statistic => statistic.Deaths == highestDeaths);
             return foundStatistic;
         }
 
@@ -103,9 +103,9 @@ namespace Covid19Analysis.Model
         /// <returns>the statistic with the highest recorded number of hospitalizations</returns>
         public CovidStatistic FindHighestRecordedHospitalizations()
         {
-            var hospitalizations = this.statisticsList.Max(statistic => statistic.Hospitalized);
+            var hospitalizations = this.statistics.Max(statistic => statistic.Hospitalized);
             var foundStatistic =
-                this.statisticsList.Find(statistic => statistic.Hospitalized == hospitalizations);
+                this.statistics.ToList().Find(statistic => statistic.Hospitalized == hospitalizations);
             return foundStatistic;
         }
 
@@ -116,8 +116,8 @@ namespace Covid19Analysis.Model
         public CovidStatistic FindHighestRecordedPositiveIncreasePercentage()
         {
             var maxPercentPositive =
-                this.statisticsList.Max(statistic => statistic.GetPercentPositiveIncrease());
-            var foundStatistic = this.statisticsList.Find(statistic =>
+                this.statistics.Max(statistic => statistic.GetPercentPositiveIncrease());
+            var foundStatistic = this.statistics.ToList().Find(statistic =>
                 statistic.GetPercentPositiveIncrease().Equals(maxPercentPositive));
             return foundStatistic;
         }
@@ -131,7 +131,7 @@ namespace Covid19Analysis.Model
             var firstPositiveDate = this.FindDateOfFirstPositiveCase();
             var positiveCases = new List<int>();
             var foundStatistics =
-                this.statisticsList.FindAll(statistic =>
+                this.statistics.ToList().FindAll(statistic =>
                     statistic.Date >= firstPositiveDate);
             foreach (var statistic in foundStatistics)
             {
@@ -146,9 +146,9 @@ namespace Covid19Analysis.Model
         /// <returns>the positivity rate</returns>
         public double FindOverallPositivityRate()
         {
-            double allPositives = this.statisticsList.Sum(statistic => statistic.PositiveIncrease);
+            double allPositives = this.statistics.Sum(statistic => statistic.PositiveIncrease);
             double totalTests =
-                this.statisticsList.Sum(statistic =>
+                this.statistics.Sum(statistic =>
                     statistic.NegativeIncrease + statistic.PositiveIncrease);
             var percentage = allPositives / totalTests * 100;
             return percentage;
@@ -162,7 +162,7 @@ namespace Covid19Analysis.Model
         public int FindNumberCasesHigherThanLowerBound(int lowerBound)
         {
             var foundStatistics =
-                this.statisticsList.FindAll(statistic =>
+                this.statistics.ToList().FindAll(statistic =>
                     statistic.Date >= this.startingDate);
             var statisticsGreaterThan = foundStatistics.FindAll(statistic => statistic.PositiveIncrease > lowerBound);
             return statisticsGreaterThan.Count;
@@ -176,7 +176,7 @@ namespace Covid19Analysis.Model
         public int FindNumberCasesLowerThanUpperBound(int upperBound)
         {
             var foundStatistics =
-                this.statisticsList.FindAll(statistic => statistic.Date >= this.FindDateOfFirstPositiveCase());
+                this.statistics.ToList().FindAll(statistic => statistic.Date >= this.FindDateOfFirstPositiveCase());
             var statisticsLowerThan = foundStatistics.FindAll(statistic => statistic.PositiveIncrease < upperBound);
             return statisticsLowerThan.Count;
         }

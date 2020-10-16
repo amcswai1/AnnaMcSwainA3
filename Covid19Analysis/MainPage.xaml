@@ -16,13 +16,14 @@
         </CommandBar>
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top" TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True" AutomationProperties.Name="summaryTextBlock" FontFamily="Courier New" />
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="COVID-19 Analysis"/>
-        <TextBox x:Name="upperBoundTextBox" HorizontalAlignment="Left" Margin="120,361,0,0" Text="2500" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="upperBound_TextChanged"/>
-        <TextBox x:Name="lowerBoundTextBox" HorizontalAlignment="Left" Margin="295,361,0,0" Text="1000" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="lowerBound_TextChanged"/>
-        <TextBlock HorizontalAlignment="Left" Margin="199,368,0,0" Text="Lower Bound
+        <TextBox x:Name="upperBoundTextBox" HorizontalAlignment="Left" Margin="102,361,0,0" Text="2500" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="upperBound_TextChanged"/>
+        <TextBox x:Name="lowerBoundTextBox" HorizontalAlignment="Left" Margin="277,361,0,0" Text="1000" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="lowerBound_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="181,368,0,0" Text="Lower Bound
                    " TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="28,368,0,0" Text="Upper Bound
+        <TextBlock HorizontalAlignment="Left" Margin="10,368,0,0" Text="Upper Bound
                    " TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Button Content="View Errors in File" Margin="455,362,0,0" VerticalAlignment="Top" Click="view_Errors_Click"/>
+        <Button Content="View Errors in File" Margin="469,362,0,0" VerticalAlignment="Top" Click="view_Errors_Click"/>
+        <Button Content="Clear Data" Margin="364,362,0,0" VerticalAlignment="Top" Click="clear_Data_Click" RenderTransformOrigin="0.665,0.462"/>
 
     </Grid>
 </Page>

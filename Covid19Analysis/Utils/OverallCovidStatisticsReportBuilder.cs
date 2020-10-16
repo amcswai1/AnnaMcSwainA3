@@ -42,11 +42,11 @@ namespace Covid19Analysis.Utils
         /// <summary>
         ///     Initializes a new instance of the <see cref="OverallCovidStatisticsReportBuilder" /> class.
         /// </summary>
-        /// <param name="statisticsList">The statistics list.</param>
-        public OverallCovidStatisticsReportBuilder(List<CovidStatistic> statisticsList)
+        /// <param name="statistics">The statistics list.</param>
+        public OverallCovidStatisticsReportBuilder(IList<CovidStatistic> statistics)
         {
-            this.overallCalculator = new OverallCovidStatisticsCalculator(statisticsList);
-            this.histogramBuilder = new CovidStatisticsHistogramReportBuilder(statisticsList);
+            this.overallCalculator = new OverallCovidStatisticsCalculator(statistics);
+            this.histogramBuilder = new CovidStatisticsHistogramReportBuilder(statistics);
         }
 
         #endregion
@@ -55,7 +55,7 @@ namespace Covid19Analysis.Utils
 
         private string firstPositiveDateToString()
         {
-            var output = String.Empty;
+            var output = string.Empty;
             var firstDate = this.overallCalculator.FindDateOfFirstPositiveCase();
             output += Environment.NewLine + "Date of First Positive Increase in Cases: " +
                       firstDate.ToShortDateString();

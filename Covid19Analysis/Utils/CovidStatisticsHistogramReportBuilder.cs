@@ -15,17 +15,17 @@ namespace Covid19Analysis.Utils
         /// <summary>
         /// Initializes a new instance of the <see cref="CovidStatisticsHistogramReportBuilder"/> class.
         /// </summary>
-        /// <param name="statisticsList">The statistics list.</param>
-        public CovidStatisticsHistogramReportBuilder(List<CovidStatistic> statisticsList)
+        /// <param name="statistics">The statistics list.</param>
+        public CovidStatisticsHistogramReportBuilder(IList<CovidStatistic> statistics)
         {
-            this.histogramCalculator = new CovidStatisticsHistogramCalculator(statisticsList);
+            this.histogramCalculator = new CovidStatisticsHistogramCalculator(statistics);
         }
         /// <summary>
         /// Builds the positive increase histogram string.
         /// </summary>
         /// <param name="range">The range threshold</param>
         /// <returns></returns>
-        public String BuildPositiveIncreaseHistogram(double range)
+        public string BuildPositiveIncreaseHistogram(double range)
         {
             int[] segments = this.histogramCalculator.CountStatisticsPositiveCasesWithinRanges(range);
             string output = Environment.NewLine + "Positive Case Histogram Breakdown: " + Environment.NewLine;

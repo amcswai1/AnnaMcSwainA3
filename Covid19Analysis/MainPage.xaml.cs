@@ -162,7 +162,7 @@ namespace Covid19Analysis
         }
         private void upperBound_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (this.upperBoundTextBox.Text == String.Empty)
+            if (this.upperBoundTextBox.Text == string.Empty)
             {
                 this.upperBoundInput = 0;
                 this.setCovidDataToSummaryBox();
@@ -177,7 +177,7 @@ namespace Covid19Analysis
 
         private void lowerBound_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (this.lowerBoundTextBox.Text == String.Empty)
+            if (this.lowerBoundTextBox.Text == string.Empty)
             {
                 this.lowerBoundInput = 0;
                 this.setCovidDataToSummaryBox();
@@ -188,6 +188,14 @@ namespace Covid19Analysis
                 this.setCovidDataToSummaryBox();
             }
         }
+
+        private async void clear_Data_Click(object sender, RoutedEventArgs e)
+        {
+            this.duplicatesFound.Clear();
+            this.statisticsToAddOrReplace.Clear();
+            this.statisticsCurrentlyLoaded.Clear();
+            this.summaryTextBox.Text = "Summary";
+        } 
 
         private async void view_Errors_Click(object sender, RoutedEventArgs e)
         {
@@ -206,7 +214,7 @@ namespace Covid19Analysis
         /// <returns>he list of errors in string format</returns>
         public string ErrorsToString()
         {
-            string output = String.Empty;
+            string output = string.Empty;
             if (this.errors.Count == 0)
             {
                 output += "No errors found!";
