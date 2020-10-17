@@ -9,7 +9,6 @@ using Windows.UI.Xaml.Controls;
 using Covid19Analysis.Model;
 using Covid19Analysis.View;
 using System.Linq;
-using Windows.UI.Xaml.Media;
 using Covid19Analysis.IO;
 using Covid19Analysis.Utils;
 
@@ -27,7 +26,6 @@ namespace Covid19Analysis
         /// </summary>
         public const int ApplicationHeight = 425;
 
-
         /// <summary>
         ///     The application width
         /// </summary>
@@ -35,10 +33,11 @@ namespace Covid19Analysis
 
         private int upperBoundInput;
         private int lowerBoundInput;
-        private List<CovidStatisticsError> errors = new List<CovidStatisticsError>();
-        private List<CovidStatistic> statisticsCurrentlyLoaded = new List<CovidStatistic>();
-        private List<CovidStatistic> statisticsToAddOrReplace = new List<CovidStatistic>();
+        private List<CovidStatisticsError> errorsFound = new List<CovidStatisticsError>();
+        private List<CovidStatistic> currentStatistics = new List<CovidStatistic>();
+        private List<CovidStatistic> incomingStatistics = new List<CovidStatistic>();
         private List<CovidStatistic> duplicatesFound = new List<CovidStatistic>();
+       
         #endregion
 
         #region Constructors
@@ -49,7 +48,6 @@ namespace Covid19Analysis
         public MainPage()
         {
             this.InitializeComponent();
-            this.summaryTextBox.FontFamily = new FontFamily("Monospaced");
             ApplicationView.PreferredLaunchViewSize = new Size {Width = ApplicationWidth, Height = ApplicationHeight};
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
@@ -67,33 +65,28 @@ namespace Covid19Analysis
             };
             openPicker.FileTypeFilter.Add(".csv");
             openPicker.FileTypeFilter.Add(".txt");
-
             StorageFile file = await openPicker.PickSingleFileAsync();
-
             string text = await FileIO.ReadTextAsync(file);
-            
             if (this.summaryTextBox.Text == "Summary")
             {
                 CovidCsvParser parser = new CovidCsvParser();
-                this.statisticsCurrentlyLoaded = parser.ParseText(text).ToList();
-                this.errors = parser.Errors.ToList();
+                this.currentStatistics = parser.ParseText(text).ToList();
+                this.errorsFound = parser.Errors.ToList();
                 this.setCovidDataToSummaryBox();
             }
             else
             {
-                this.statisticsToAddOrReplace.Clear();
+                this.incomingStatistics.Clear();
                 CovidCsvParser parser = new CovidCsvParser();
-                this.statisticsToAddOrReplace = parser.ParseText(text).ToList();
-                this.errors = parser.Errors.ToList();
+                this.incomingStatistics = parser.ParseText(text).ToList();
+                this.errorsFound = parser.Errors.ToList();
                 this.displayMergeOption();
-
-
             }
         }
 
         private void setCovidDataToSummaryBox()
         {
-            CovidStatisticsReportBuilder stringBuilder = new CovidStatisticsReportBuilder(this.statisticsCurrentlyLoaded);
+            CovidStatisticsReportBuilder stringBuilder = new CovidStatisticsReportBuilder(this.currentStatistics);
             stringBuilder.SetUpperAndLowerBoundLimits(this.upperBoundInput, this.lowerBoundInput);
             this.summaryTextBox.Text = "Summary" + Environment.NewLine + stringBuilder.BuildStringForOutput();
         }
@@ -108,57 +101,73 @@ namespace Covid19Analysis
             }
             else
             {
-                this.statisticsCurrentlyLoaded = this.statisticsToAddOrReplace;
+                this.currentStatistics = this.incomingStatistics;
                 this.setCovidDataToSummaryBox();
             }
         }
         private void findAllDuplicates()
         {
-            var duplicates = this.statisticsToAddOrReplace.Where(existingStatistic => this.statisticsToAddOrReplace.Exists(newStatistic => existingStatistic.Date == newStatistic.Date)).ToList();
+            var duplicates = this.incomingStatistics.Where(existingStatistic => this.incomingStatistics.Exists(newStatistic => existingStatistic.Date == newStatistic.Date)).ToList();
             this.duplicatesFound = duplicates;
-            
         }
 
         private async void displayApplyToAllDialog()
         {
-            
+            var toRemoveFromExisting = new List<CovidStatistic>();
+            var toRemoveFromIncoming = new List<CovidStatistic>();
+            var duplicatesHandled = new List<CovidStatistic>();
             foreach (var duplicate in this.duplicatesFound)
-            {
-               CovidStatisticsMerger merger = new CovidStatisticsMerger(this.statisticsCurrentlyLoaded, this.statisticsToAddOrReplace, this.duplicatesFound);
-                KeepOrReplaceContentDialog keepOrReplaceDialog = new KeepOrReplaceContentDialog();
-                var result = await keepOrReplaceDialog.ShowAsync();
-                if (result == ContentDialogResult.Primary)
-                {
+            { 
+               var keepOrReplaceDialog = new KeepOrReplaceContentDialog();
+               var result = await keepOrReplaceDialog.ShowAsync();
+               if (result == ContentDialogResult.Primary)
+               {
+                   if (keepOrReplaceDialog.CheckBoxStatus)
+                   {
+                       System.Diagnostics.Debug.WriteLine("HIT KEEP ALL");
+                       var remainingDuplicates = this.duplicatesFound.Except(duplicatesHandled);
+                       foreach (var remainingDuplicate in remainingDuplicates)
+                       {
+                            toRemoveFromIncoming.Add(remainingDuplicate);
+                       }
+                       break;
+                   }
+                   else
+                   {
+                       toRemoveFromIncoming.Add(duplicate);
+                       duplicatesHandled.Add(duplicate);
+                   }
+               }
+               else
+               {
                     if (keepOrReplaceDialog.CheckBoxStatus)
                     {
-                        this.statisticsCurrentlyLoaded = merger.KeepAllExistingData().ToList();
-                        this.statisticsToAddOrReplace.Clear();
-                        return;
+                        System.Diagnostics.Debug.WriteLine("HIT REPLACE ALL");
+                        var remainingDuplicates = this.duplicatesFound.Except(duplicatesHandled);
+                        foreach (var remainingDuplicate in remainingDuplicates)
+                        {
+                            toRemoveFromExisting.Add(this.findDuplicateInCurrentStatistics(remainingDuplicate));
+                        }
+                        break;
                     }
                     else
                     {
-                        merger.KeepExistingDataForCurrentDuplicate(duplicate);
+                        toRemoveFromExisting.Add(this.findDuplicateInCurrentStatistics(duplicate));
+                        duplicatesHandled.Add(duplicate);
                     }
-                }
-                else
-                {
-                    if (keepOrReplaceDialog.CheckBoxStatus)
-                    {
-                        this.statisticsCurrentlyLoaded = merger.ReplaceAllExistingDuplicateDataWithNewData().ToList();
-                        this.statisticsToAddOrReplace.Clear();
-                        return;
-                    }
-                    else
-                    {
-                        merger.ReplaceOneCurrentDataWithNewData(duplicate);
-                    }
-                }
+               }
             }
-
-            this.statisticsCurrentlyLoaded =
-                this.statisticsCurrentlyLoaded.Concat(this.statisticsToAddOrReplace).ToList();
+            this.currentStatistics = this.currentStatistics.Except(toRemoveFromExisting).ToList();
+            this.incomingStatistics = this.incomingStatistics.Except(toRemoveFromIncoming).ToList();
+            var combined = this.currentStatistics.Concat(this.incomingStatistics);
+            this.currentStatistics = combined.ToList();
+            this.incomingStatistics.Clear();
             this.setCovidDataToSummaryBox();
+        }
 
+        private CovidStatistic findDuplicateInCurrentStatistics(CovidStatistic duplicate)
+        {
+            return this.currentStatistics.ToList().Find(statistic => statistic.Date == duplicate.Date);
         }
         private void upperBound_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -172,7 +181,6 @@ namespace Covid19Analysis
                 this.upperBoundInput = int.Parse(this.upperBoundTextBox.Text);
                 this.setCovidDataToSummaryBox();
             }
-            
         }
 
         private void lowerBound_TextChanged(object sender, TextChangedEventArgs e)
@@ -189,11 +197,11 @@ namespace Covid19Analysis
             }
         }
 
-        private async void clear_Data_Click(object sender, RoutedEventArgs e)
+        private void clear_Data_Click(object sender, RoutedEventArgs e)
         {
             this.duplicatesFound.Clear();
-            this.statisticsToAddOrReplace.Clear();
-            this.statisticsCurrentlyLoaded.Clear();
+            this.incomingStatistics.Clear();
+            this.currentStatistics.Clear();
             this.summaryTextBox.Text = "Summary";
         } 
 
@@ -214,24 +222,16 @@ namespace Covid19Analysis
         /// <returns>he list of errors in string format</returns>
         public string ErrorsToString()
         {
-            string output = string.Empty;
-            if (this.errors.Count == 0)
+            var output = string.Empty;
+            if (this.errorsFound.Count == 0)
             {
                 output += "No errors found!";
             }
             else
             {
-                foreach (CovidStatisticsError currentError in this.errors)
-                {
-                    output += "Line " + currentError.LineErrorWasFound + ": " + string.Join(",", currentError.ErrorLineContents) + Environment.NewLine;
-                }
+                output = this.errorsFound.Aggregate(output, (current, currentError) => current + ("Line " + currentError.LineErrorWasFound + ": " + string.Join(",", currentError.ErrorLineContents) + Environment.NewLine));
             }
-
             return output;
         }
     }
 }
-    
-    
-
-

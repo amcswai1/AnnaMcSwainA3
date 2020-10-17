@@ -10,7 +10,7 @@
     SecondaryButtonText="Replace">
     
     <Grid>
-        <CheckBox x:Name="handleAllDuplicatesCheckBox"  Content="Do this for all duplicates" Margin="0,72,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="handleAllDuplicatesCheckBox" Checked="HandleAllDuplicatesCheckBox_OnChecked" Content="Do this for all duplicates" Margin="0,72,0,0" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="0,33,0,0" Text="What would you like to do with duplicate data?" TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </ContentDialog>

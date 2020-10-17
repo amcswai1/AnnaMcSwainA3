@@ -1,4 +1,6 @@
-﻿namespace Covid19Analysis.View
+﻿using Windows.UI.Xaml;
+
+namespace Covid19Analysis.View
 {
     /// <summary>
     ///     Represents the dialog for keeping or replacing data
@@ -32,5 +34,9 @@
 
         #endregion
 
+        private void HandleAllDuplicatesCheckBox_OnChecked(object sender, RoutedEventArgs e)
+        {
+            this.CheckBoxStatus = true;
+        }
     }
 }

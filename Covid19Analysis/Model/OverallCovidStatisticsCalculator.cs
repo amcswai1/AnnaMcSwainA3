@@ -116,9 +116,9 @@ namespace Covid19Analysis.Model
         public CovidStatistic FindHighestRecordedPositiveIncreasePercentage()
         {
             var maxPercentPositive =
-                this.statistics.Max(statistic => statistic.GetPercentPositiveIncrease());
+                this.statistics.Max(statistic => statistic.PercentPositiveIncrease);
             var foundStatistic = this.statistics.ToList().Find(statistic =>
-                statistic.GetPercentPositiveIncrease().Equals(maxPercentPositive));
+                statistic.PercentPositiveIncrease.Equals(maxPercentPositive));
             return foundStatistic;
         }
 

@@ -123,6 +123,9 @@
     <Compile Include="Model\CovidStatisticsError.cs" />
     <Compile Include="Utils\CovidStatisticsHistogramReportBuilder.cs" />
     <Compile Include="Model\CovidStatisticsHistogramCalculator.cs" />
+    <Compile Include="View\AddStatisticContentDialog.xaml.cs">
+      <DependentUpon>AddStatisticContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\KeepOrReplaceContentDialog.xaml.cs">
       <DependentUpon>KeepOrReplaceContentDialog.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\AddStatisticContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\KeepOrReplaceContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
