@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Windows.UI.Xaml.Controls;
 using Covid19Analysis.Model;
 
 namespace Covid19Analysis.Utils
@@ -36,6 +37,15 @@ namespace Covid19Analysis.Utils
         {
             this.overallCovidStatisticsStringBuilder.LowerBoundInput = lowerLimit;
             this.overallCovidStatisticsStringBuilder.UpperBoundInput = upperLimit;
+        }
+
+        /// <summary>
+        /// Sets the size of the histogram bin.
+        /// </summary>
+        /// <param name="histogramBinSize">Size of the histogram bin.</param>
+        public void SetHistogramBinSize(int histogramBinSize)
+        {
+            this.overallCovidStatisticsStringBuilder.HistogramBinSizeInput = histogramBinSize;
         }
     }
 }

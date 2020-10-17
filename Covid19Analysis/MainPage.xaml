@@ -24,6 +24,9 @@
                    " TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Button Content="View Errors in File" Margin="469,362,0,0" VerticalAlignment="Top" Click="view_Errors_Click"/>
         <Button Content="Clear Data" Margin="364,362,0,0" VerticalAlignment="Top" Click="clear_Data_Click" RenderTransformOrigin="0.665,0.462"/>
+        <Button Content="Add Statistic" Margin="364,416,0,0" VerticalAlignment="Top" Width="235"/>
+        <TextBox x:Name="histogramBinSize" HorizontalAlignment="Left" Margin="138,410,0,0" Text="500" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="histogramBinSize_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="12,417,0,0" Text="Histogram Bin Size" TextWrapping="Wrap" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>

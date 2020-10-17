@@ -10,10 +10,10 @@ namespace Covid19Analysis.Utils
         #region Data members
 
         private readonly OverallCovidStatisticsCalculator overallCalculator;
+        private readonly CovidStatisticsHistogramReportBuilder histogramBuilder;
         private readonly string integerFormat = "N0";
         private readonly string doubleFormat = "#,#.##";
-        private readonly double segmentRange = 500.0;
-        private readonly CovidStatisticsHistogramReportBuilder histogramBuilder;
+        
 
         #endregion
 
@@ -34,6 +34,14 @@ namespace Covid19Analysis.Utils
         ///     The upper bound input.
         /// </value>
         public int UpperBoundInput { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the histogram bin size.
+        /// </summary>
+        /// <value>
+        ///     The histogram bin size.
+        /// </value>
+        public int HistogramBinSizeInput { get; set; }
 
         #endregion
 
@@ -175,7 +183,7 @@ namespace Covid19Analysis.Utils
             output += this.numberOfDaysFromFirstTestAboveNumberToString(this.UpperBoundInput);
             output += this.numberOfDaysFromFirstTestBelowNumberToString(this.LowerBoundInput);
             output += Environment.NewLine;
-            output += this.histogramBuilder.BuildPositiveIncreaseHistogram(this.segmentRange);
+            output += this.histogramBuilder.BuildPositiveIncreaseHistogram(this.HistogramBinSizeInput);
             return output;
         }
 

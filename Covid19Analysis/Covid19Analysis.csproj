@@ -132,7 +132,6 @@
     <Compile Include="View\MergeContentDialog.xaml.cs">
       <DependentUpon>MergeContentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\CovidStatisticsMerger.cs" />
     <Compile Include="Utils\OverallCovidStatisticsReportBuilder.cs" />
     <Compile Include="Utils\MonthlyCovidStatisticsReportBuilder.cs" />
     <Compile Include="Utils\CovidStatisticsReportBuilder.cs" />

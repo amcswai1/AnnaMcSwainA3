@@ -33,11 +33,13 @@ namespace Covid19Analysis
 
         private int upperBoundInput;
         private int lowerBoundInput;
+        private int histogramBinSizeInput;
         private List<CovidStatisticsError> errorsFound = new List<CovidStatisticsError>();
         private List<CovidStatistic> currentStatistics = new List<CovidStatistic>();
         private List<CovidStatistic> incomingStatistics = new List<CovidStatistic>();
         private List<CovidStatistic> duplicatesFound = new List<CovidStatistic>();
        
+
         #endregion
 
         #region Constructors
@@ -53,7 +55,7 @@ namespace Covid19Analysis
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
             this.upperBoundInput = int.Parse(this.upperBoundTextBox.Text);
             this.lowerBoundInput = int.Parse(this.lowerBoundTextBox.Text);
-
+            this.histogramBinSizeInput = int.Parse(this.histogramBinSize.Text);
         }
 
         #endregion
@@ -88,6 +90,7 @@ namespace Covid19Analysis
         {
             CovidStatisticsReportBuilder stringBuilder = new CovidStatisticsReportBuilder(this.currentStatistics);
             stringBuilder.SetUpperAndLowerBoundLimits(this.upperBoundInput, this.lowerBoundInput);
+            stringBuilder.SetHistogramBinSize(this.histogramBinSizeInput);
             this.summaryTextBox.Text = "Summary" + Environment.NewLine + stringBuilder.BuildStringForOutput();
         }
         private async void displayMergeOption()
@@ -132,11 +135,8 @@ namespace Covid19Analysis
                        }
                        break;
                    }
-                   else
-                   {
-                       toRemoveFromIncoming.Add(duplicate);
-                       duplicatesHandled.Add(duplicate);
-                   }
+                   toRemoveFromIncoming.Add(duplicate);
+                   duplicatesHandled.Add(duplicate);
                }
                else
                {
@@ -150,11 +150,8 @@ namespace Covid19Analysis
                         }
                         break;
                     }
-                    else
-                    {
-                        toRemoveFromExisting.Add(this.findDuplicateInCurrentStatistics(duplicate));
-                        duplicatesHandled.Add(duplicate);
-                    }
+                    toRemoveFromExisting.Add(this.findDuplicateInCurrentStatistics(duplicate));
+                    duplicatesHandled.Add(duplicate);
                }
             }
             this.currentStatistics = this.currentStatistics.Except(toRemoveFromExisting).ToList();
@@ -232,6 +229,21 @@ namespace Covid19Analysis
                 output = this.errorsFound.Aggregate(output, (current, currentError) => current + ("Line " + currentError.LineErrorWasFound + ": " + string.Join(",", currentError.ErrorLineContents) + Environment.NewLine));
             }
             return output;
+        }
+
+        private void histogramBinSize_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (this.histogramBinSize.Text == string.Empty || int.Parse(this.histogramBinSize.Text) < 5)
+            {
+                this.histogramBinSize.Text = "5";
+                this.histogramBinSizeInput = 5;
+                this.setCovidDataToSummaryBox();
+            }
+            else
+            {
+                this.histogramBinSizeInput = int.Parse(this.histogramBinSize.Text);
+                this.setCovidDataToSummaryBox();
+            }
         }
     }
 }
