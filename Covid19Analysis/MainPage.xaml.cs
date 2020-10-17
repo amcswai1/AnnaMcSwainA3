@@ -289,7 +289,13 @@ namespace Covid19Analysis
                 }
                 catch (Exception)
                 {
-                    addStatisticContentDialog.errorLabel.Text = "Invalid input detected";
+                    ContentDialog error = new ContentDialog()
+                    {
+                        Title = "Error: Could Not Add Statistic to List",
+                        Content = "Ensure that all values entered are \nnumbers greater than zero.",
+                        CloseButtonText = "Close"
+                    };
+                    await error.ShowAsync();
                 }
                 
             }
