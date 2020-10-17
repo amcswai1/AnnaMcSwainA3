@@ -24,7 +24,7 @@ namespace Covid19Analysis
         /// <summary>
         ///     The application height
         /// </summary>
-        public const int ApplicationHeight = 425;
+        public const int ApplicationHeight = 450;
 
         /// <summary>
         ///     The application width
@@ -38,7 +38,7 @@ namespace Covid19Analysis
         private List<CovidStatistic> currentStatistics = new List<CovidStatistic>();
         private List<CovidStatistic> incomingStatistics = new List<CovidStatistic>();
         private List<CovidStatistic> duplicatesFound = new List<CovidStatistic>();
-       
+
 
         #endregion
 
@@ -79,6 +79,7 @@ namespace Covid19Analysis
             else
             {
                 this.incomingStatistics.Clear();
+                this.duplicatesFound.Clear();
                 CovidCsvParser parser = new CovidCsvParser();
                 this.incomingStatistics = parser.ParseText(text).ToList();
                 this.errorsFound = parser.Errors.ToList();
@@ -93,6 +94,7 @@ namespace Covid19Analysis
             stringBuilder.SetHistogramBinSize(this.histogramBinSizeInput);
             this.summaryTextBox.Text = "Summary" + Environment.NewLine + stringBuilder.BuildStringForOutput();
         }
+
         private async void displayMergeOption()
         {
             MergeContentDialog mergeDialog = new MergeContentDialog();
@@ -100,7 +102,7 @@ namespace Covid19Analysis
             if (result == ContentDialogResult.Primary)
             {
                 this.findAllDuplicates();
-                this.displayApplyToAllDialog();                   
+                this.displayApplyToAllDialog();
             }
             else
             {
@@ -108,9 +110,11 @@ namespace Covid19Analysis
                 this.setCovidDataToSummaryBox();
             }
         }
+
         private void findAllDuplicates()
         {
-            var duplicates = this.incomingStatistics.Where(existingStatistic => this.incomingStatistics.Exists(newStatistic => existingStatistic.Date == newStatistic.Date)).ToList();
+            var duplicates = this.incomingStatistics.Where(existingStatistic =>
+                this.incomingStatistics.Exists(newStatistic => existingStatistic.Date == newStatistic.Date)).ToList();
             this.duplicatesFound = duplicates;
         }
 
@@ -120,29 +124,27 @@ namespace Covid19Analysis
             var toRemoveFromIncoming = new List<CovidStatistic>();
             var duplicatesHandled = new List<CovidStatistic>();
             foreach (var duplicate in this.duplicatesFound)
-            { 
-               var keepOrReplaceDialog = new KeepOrReplaceContentDialog();
-               var result = await keepOrReplaceDialog.ShowAsync();
-               if (result == ContentDialogResult.Primary)
-               {
-                   if (keepOrReplaceDialog.CheckBoxStatus)
-                   {
-                       System.Diagnostics.Debug.WriteLine("HIT KEEP ALL");
-                       var remainingDuplicates = this.duplicatesFound.Except(duplicatesHandled);
-                       foreach (var remainingDuplicate in remainingDuplicates)
-                       {
-                            toRemoveFromIncoming.Add(remainingDuplicate);
-                       }
-                       break;
-                   }
-                   toRemoveFromIncoming.Add(duplicate);
-                   duplicatesHandled.Add(duplicate);
-               }
-               else
-               {
+            {
+                var keepOrReplaceDialog = new KeepOrReplaceContentDialog();
+                var result = await keepOrReplaceDialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
                     if (keepOrReplaceDialog.CheckBoxStatus)
                     {
-                        System.Diagnostics.Debug.WriteLine("HIT REPLACE ALL");
+                        var remainingDuplicates = this.duplicatesFound.Except(duplicatesHandled);
+                        foreach (var remainingDuplicate in remainingDuplicates)
+                        {
+                            toRemoveFromIncoming.Add(remainingDuplicate);
+                        }
+                        break;
+                    }
+                    toRemoveFromIncoming.Add(duplicate);
+                    duplicatesHandled.Add(duplicate);
+                }
+                else
+                {
+                    if (keepOrReplaceDialog.CheckBoxStatus)
+                    {
                         var remainingDuplicates = this.duplicatesFound.Except(duplicatesHandled);
                         foreach (var remainingDuplicate in remainingDuplicates)
                         {
@@ -152,7 +154,7 @@ namespace Covid19Analysis
                     }
                     toRemoveFromExisting.Add(this.findDuplicateInCurrentStatistics(duplicate));
                     duplicatesHandled.Add(duplicate);
-               }
+                }
             }
             this.currentStatistics = this.currentStatistics.Except(toRemoveFromExisting).ToList();
             this.incomingStatistics = this.incomingStatistics.Except(toRemoveFromIncoming).ToList();
@@ -166,6 +168,7 @@ namespace Covid19Analysis
         {
             return this.currentStatistics.ToList().Find(statistic => statistic.Date == duplicate.Date);
         }
+
         private void upperBound_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (this.upperBoundTextBox.Text == string.Empty)
@@ -174,7 +177,7 @@ namespace Covid19Analysis
                 this.setCovidDataToSummaryBox();
             }
             else
-            { 
+            {
                 this.upperBoundInput = int.Parse(this.upperBoundTextBox.Text);
                 this.setCovidDataToSummaryBox();
             }
@@ -200,7 +203,7 @@ namespace Covid19Analysis
             this.incomingStatistics.Clear();
             this.currentStatistics.Clear();
             this.summaryTextBox.Text = "Summary";
-        } 
+        }
 
         private async void view_Errors_Click(object sender, RoutedEventArgs e)
         {
@@ -226,8 +229,12 @@ namespace Covid19Analysis
             }
             else
             {
-                output = this.errorsFound.Aggregate(output, (current, currentError) => current + ("Line " + currentError.LineErrorWasFound + ": " + string.Join(",", currentError.ErrorLineContents) + Environment.NewLine));
+                output = this.errorsFound.Aggregate(output,
+                    (current, currentError) => current + ("Line " + currentError.LineErrorWasFound + ": " +
+                                                          string.Join(",", currentError.ErrorLineContents) +
+                                                          Environment.NewLine));
             }
+
             return output;
         }
 
@@ -244,6 +251,53 @@ namespace Covid19Analysis
                 this.histogramBinSizeInput = int.Parse(this.histogramBinSize.Text);
                 this.setCovidDataToSummaryBox();
             }
+        }
+
+        private async void add_Statistic_Click(object sender, RoutedEventArgs e)
+        {
+            var addStatisticContentDialog = new AddStatisticContentDialog();
+            var result = await addStatisticContentDialog.ShowAsync();
+           
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    var date = DateTime.ParseExact(addStatisticContentDialog.dateTextBox.Text, "yyyyMMdd", null);
+                    var positiveIncrease = int.Parse(addStatisticContentDialog.positiveIncreaseTextBox.Text);
+                    var negativeIncrease = int.Parse(addStatisticContentDialog.negativeIncreaseTextBox.Text);
+                    var deaths = int.Parse(addStatisticContentDialog.deathsTextBox.Text);
+                    var hospitalizations = int.Parse(addStatisticContentDialog.hospitalizationsTextBox.Text);
+                    var statistic = new CovidStatistic(date, positiveIncrease, negativeIncrease, deaths,
+                        hospitalizations);
+                    if (positiveIncrease < 0 || negativeIncrease < 0 || deaths < 0 || hospitalizations < 0)
+                    {
+                        throw new Exception("Input cannot be negative");
+                    }
+                    
+                    var foundStatistic = this.findDuplicateInCurrentStatistics(statistic);
+                    if (foundStatistic != null)
+                    {
+                        this.incomingStatistics.Add(statistic);
+                        this.displayMergeOption();
+                    }
+                    else
+                    {
+                        this.currentStatistics.Add(statistic);
+                        this.setCovidDataToSummaryBox();
+
+                    }
+                }
+                catch (Exception)
+                {
+                    addStatisticContentDialog.errorLabel.Text = "Invalid input detected";
+                }
+                
+            }
+        }
+
+        private void saveFile_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

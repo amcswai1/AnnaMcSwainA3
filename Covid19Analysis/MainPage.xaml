@@ -13,6 +13,8 @@
                 <Grid/>
             </CommandBar.Content>
             <AppBarButton Icon="OpenFile" Label="Load File" Click="loadFile_Click"/>
+            <AppBarButton Icon="Save" Label="Save File" Click="saveFile_Click" />
+
         </CommandBar>
         <TextBox x:Name="summaryTextBox" HorizontalAlignment="Left" Margin="12,67,0,0" VerticalAlignment="Top" TextWrapping="Wrap" Text="Summary" Height="276" Width="600" IsReadOnly="True" AutomationProperties.Name="summaryTextBlock"/>
         <TextBlock HorizontalAlignment="Left" Margin="12,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="COVID-19 Analysis"/>
@@ -23,8 +25,8 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,368,0,0" Text="Upper Bound
                    " TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Button Content="View Errors in File" Margin="469,362,0,0" VerticalAlignment="Top" Click="view_Errors_Click"/>
-        <Button Content="Clear Data" Margin="364,362,0,0" VerticalAlignment="Top" Click="clear_Data_Click" RenderTransformOrigin="0.665,0.462"/>
-        <Button Content="Add Statistic" Margin="364,416,0,0" VerticalAlignment="Top" Width="235"/>
+        <Button Content="Clear Data" Margin="364,362,0,0" VerticalAlignment="Top" Click="clear_Data_Click" RenderTransformOrigin="0.665,0.462" Width="100"/>
+        <Button Content="Add Statistic" Margin="364,400,0,0" VerticalAlignment="Top" Width="235" Click="add_Statistic_Click"/>
         <TextBox x:Name="histogramBinSize" HorizontalAlignment="Left" Margin="138,410,0,0" Text="500" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="histogramBinSize_TextChanged"/>
         <TextBlock HorizontalAlignment="Left" Margin="12,417,0,0" Text="Histogram Bin Size" TextWrapping="Wrap" VerticalAlignment="Top"/>
 

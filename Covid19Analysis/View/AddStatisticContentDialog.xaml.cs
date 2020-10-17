@@ -6,14 +6,15 @@ namespace Covid19Analysis.View
     /// Represents the AddStatistics content dialog
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.ContentDialog" />
-    public sealed partial class ContentDialog1 : ContentDialog
+    public sealed partial class AddStatisticContentDialog
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContentDialog1"/> class.
+        /// Initializes a new instance of the <see cref="AddStatisticContentDialog"/> class.
         /// </summary>
-        public ContentDialog1()
+        public AddStatisticContentDialog()
         {
             this.InitializeComponent();
+
         }
     }
 }
