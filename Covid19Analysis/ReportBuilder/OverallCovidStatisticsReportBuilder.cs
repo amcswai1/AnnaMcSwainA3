@@ -2,22 +2,11 @@
 using System.Collections.Generic;
 using Covid19Analysis.Model;
 
-namespace Covid19Analysis.Utils
-
+namespace Covid19Analysis.ReportBuilder
 {
     internal class OverallCovidStatisticsReportBuilder
     {
-        #region Data members
-
-        private readonly OverallCovidStatisticsCalculator overallCalculator;
-        private readonly CovidStatisticsHistogramReportBuilder histogramBuilder;
-        private const string IntegerFormat = "N0";
-        private const string DoubleFormat = "#,#.##";
-        
-
-        #endregion
-
-        #region Properties
+        #region Fields
 
         /// <summary>
         ///     Gets or sets the lower bound input.
@@ -43,6 +32,11 @@ namespace Covid19Analysis.Utils
         /// </value>
         public int HistogramBinSizeInput { get; set; }
 
+        private readonly OverallCovidStatisticsCalculator overallCalculator;
+        private readonly CovidStatisticsHistogramReportBuilder histogramBuilder;
+        private const string IntegerFormat = "N0";
+        private const string DoubleFormat = "#,#.##";
+
         #endregion
 
         #region Constructors
@@ -59,7 +53,7 @@ namespace Covid19Analysis.Utils
 
         #endregion
 
-        #region Methods
+        #region Private Methods
 
         private string firstPositiveDateToString()
         {
@@ -163,6 +157,10 @@ namespace Covid19Analysis.Utils
                          daysCount.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " days";
             return output;
         }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         ///     Gets the overall data string representation.

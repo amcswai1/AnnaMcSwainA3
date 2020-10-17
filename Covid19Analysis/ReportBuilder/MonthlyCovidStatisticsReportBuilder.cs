@@ -4,12 +4,11 @@ using System.Globalization;
 using System.Linq;
 using Covid19Analysis.Model;
 
-namespace Covid19Analysis.Utils
-
+namespace Covid19Analysis.ReportBuilder
 {
     internal class MonthlyCovidStatisticsReportBuilder
     {
-        #region Data members
+        #region Fields
 
         private readonly MonthlyCovidStatisticsCalculator monthlyCalculator;
         private const string IntegerFormat = "N0";
@@ -30,7 +29,7 @@ namespace Covid19Analysis.Utils
 
         #endregion
 
-        #region Methods
+        #region Private Methods
 
         /// <summary>
         ///     Dates the with suffix to string.
@@ -162,6 +161,10 @@ namespace Covid19Analysis.Utils
 
             return output;
         }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         ///     Gets the monthly data summary and returns the string that the text box should print.

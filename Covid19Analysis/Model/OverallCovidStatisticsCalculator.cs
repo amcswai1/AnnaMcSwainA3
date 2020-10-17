@@ -9,7 +9,7 @@ namespace Covid19Analysis.Model
     /// </summary>
     public class OverallCovidStatisticsCalculator
     {
-        #region Data members
+        #region Fields
 
         private readonly IList<CovidStatistic> statistics;
         private readonly DateTime startingDate;
@@ -30,7 +30,7 @@ namespace Covid19Analysis.Model
 
         #endregion
 
-        #region Methods
+        #region Public Methods
 
         /// <summary>
         ///     Finds the first positive date recorded for cases.

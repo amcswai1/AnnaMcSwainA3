@@ -122,7 +122,7 @@
     </Compile>
     <Compile Include="IO\CovidCsvSaver.cs" />
     <Compile Include="Model\CovidStatisticsError.cs" />
-    <Compile Include="Utils\CovidStatisticsHistogramReportBuilder.cs" />
+    <Compile Include="ReportBuilder\CovidStatisticsHistogramReportBuilder.cs" />
     <Compile Include="Model\CovidStatisticsHistogramCalculator.cs" />
     <Compile Include="View\AddStatisticContentDialog.xaml.cs">
       <DependentUpon>AddStatisticContentDialog.xaml</DependentUpon>
@@ -133,9 +133,9 @@
     <Compile Include="View\MergeContentDialog.xaml.cs">
       <DependentUpon>MergeContentDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\OverallCovidStatisticsReportBuilder.cs" />
-    <Compile Include="Utils\MonthlyCovidStatisticsReportBuilder.cs" />
-    <Compile Include="Utils\CovidStatisticsReportBuilder.cs" />
+    <Compile Include="ReportBuilder\OverallCovidStatisticsReportBuilder.cs" />
+    <Compile Include="ReportBuilder\MonthlyCovidStatisticsReportBuilder.cs" />
+    <Compile Include="ReportBuilder\CovidStatisticsReportBuilder.cs" />
     <Compile Include="Model\MonthlyCovidStatisticsCalculator.cs" />
     <Compile Include="Model\CovidStatistic.cs" />
     <Compile Include="Model\OverallCovidStatisticsCalculator.cs" />

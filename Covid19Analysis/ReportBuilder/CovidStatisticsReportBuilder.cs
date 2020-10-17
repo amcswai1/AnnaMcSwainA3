@@ -1,12 +1,19 @@
 ﻿using System.Collections.Generic;
 using Covid19Analysis.Model;
 
-namespace Covid19Analysis.Utils
+namespace Covid19Analysis.ReportBuilder
 {
     internal class CovidStatisticsReportBuilder
     {
+        #region Fields
+
         private readonly OverallCovidStatisticsReportBuilder overallCovidStatisticsStringBuilder;
         private readonly MonthlyCovidStatisticsReportBuilder monthlyCovidStatisticsStringBuilder;
+
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CovidStatisticsReportBuilder"/> class.
         /// </summary>
@@ -16,7 +23,12 @@ namespace Covid19Analysis.Utils
             this.overallCovidStatisticsStringBuilder = new OverallCovidStatisticsReportBuilder(statisticsList);
             this.monthlyCovidStatisticsStringBuilder = new MonthlyCovidStatisticsReportBuilder(statisticsList);
         }
-        /// <summary>
+
+        #endregion
+
+        #region Public Methods
+
+             /// <summary>
         /// Builds the string for output to the summary.
         /// </summary>
         /// <returns>the string to set the summary box to</returns>
@@ -46,5 +58,7 @@ namespace Covid19Analysis.Utils
         {
             this.overallCovidStatisticsStringBuilder.HistogramBinSizeInput = histogramBinSize;
         }
+
+        #endregion
     }
 }

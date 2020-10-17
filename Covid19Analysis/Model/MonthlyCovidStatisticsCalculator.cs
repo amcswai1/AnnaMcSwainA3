@@ -162,6 +162,5 @@ namespace Covid19Analysis.Model
         }
 
         #endregion
-
     }
 }

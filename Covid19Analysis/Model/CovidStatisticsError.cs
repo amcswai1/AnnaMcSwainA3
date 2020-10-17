@@ -5,6 +5,8 @@
     /// </summary>
     public class CovidStatisticsError
     {
+        #region Fields
+
         /// <summary>
         /// Gets the error line contents.
         /// </summary>
@@ -20,6 +22,10 @@
         /// </value>
         public int LineErrorWasFound { get; }
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CovidStatisticsError"/> class.
         /// </summary>
@@ -27,10 +33,10 @@
         /// <param name="lineErrorWasFound">The line error was found.</param>
         public CovidStatisticsError(string[] errorLineContents, int lineErrorWasFound)
         {
-            this.ErrorLineContents = string.Join(",",errorLineContents);
+            this.ErrorLineContents = string.Join(",", errorLineContents);
             this.LineErrorWasFound = lineErrorWasFound;
         }
+
+        #endregion
     }
-
-
 }

@@ -3,10 +3,19 @@ using Covid19Analysis.Model;
 
 namespace Covid19Analysis.IO
 {
-    class CovidCsvSaver
+    /// <summary>
+    /// Represents the Covid CSV File Saver
+    /// </summary>
+    internal class CovidCsvSaver
     {
+        #region Fields
+
         private readonly IList<CovidStatistic> statistics;
         private const string State = "GA";
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CovidCsvSaver"/> class.
@@ -16,6 +25,11 @@ namespace Covid19Analysis.IO
         {
             this.statistics = statistics;
         }
+
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Converts the currently loaded statistics to a string form able to be saved to a CSV file.
         /// </summary>
@@ -29,8 +43,10 @@ namespace Covid19Analysis.IO
                           statistic.PositiveIncrease + "," + statistic.NegativeIncrease + "," + statistic.Deaths + "," +
                           statistic.Hospitalized + "\n";
             }
-
             return output;
         }
+
+        #endregion
+
     }
 }

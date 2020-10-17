@@ -10,7 +10,7 @@ using Covid19Analysis.Model;
 using Covid19Analysis.View;
 using System.Linq;
 using Covid19Analysis.IO;
-using Covid19Analysis.Utils;
+using Covid19Analysis.ReportBuilder;
 
 namespace Covid19Analysis
 {

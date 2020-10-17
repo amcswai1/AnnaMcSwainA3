@@ -2,15 +2,20 @@
 using System;
 using System.Collections.Generic;
 
-namespace Covid19Analysis.Utils
+namespace Covid19Analysis.ReportBuilder
 {
     /// <summary>
     /// Represents the string representation for the covid statistics histogram data
     /// </summary>
     class CovidStatisticsHistogramReportBuilder
     {
-        
+        #region Fields
+
         private readonly CovidStatisticsHistogramCalculator histogramCalculator;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CovidStatisticsHistogramReportBuilder"/> class.
@@ -20,6 +25,11 @@ namespace Covid19Analysis.Utils
         {
             this.histogramCalculator = new CovidStatisticsHistogramCalculator(statistics);
         }
+
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Builds the positive increase histogram string.
         /// </summary>
@@ -39,5 +49,7 @@ namespace Covid19Analysis.Utils
             }
             return output;
         }
+
+        #endregion
     }
 }
