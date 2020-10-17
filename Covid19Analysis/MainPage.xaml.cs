@@ -34,10 +34,10 @@ namespace Covid19Analysis
         private int upperBoundInput;
         private int lowerBoundInput;
         private int histogramBinSizeInput;
-        private List<CovidStatisticsError> errorsFound = new List<CovidStatisticsError>();
-        private List<CovidStatistic> currentStatistics = new List<CovidStatistic>();
-        private List<CovidStatistic> incomingStatistics = new List<CovidStatistic>();
-        private List<CovidStatistic> duplicatesFound = new List<CovidStatistic>();
+        private IList<CovidStatisticsError> errorsFound = new List<CovidStatisticsError>();
+        private IList<CovidStatistic> currentStatistics = new List<CovidStatistic>();
+        private IList<CovidStatistic> incomingStatistics = new List<CovidStatistic>();
+        private IList<CovidStatistic> duplicatesFound = new List<CovidStatistic>();
 
 
         #endregion
@@ -114,7 +114,7 @@ namespace Covid19Analysis
         private void findAllDuplicates()
         {
             var duplicates = this.incomingStatistics.Where(existingStatistic =>
-                this.incomingStatistics.Exists(newStatistic => existingStatistic.Date == newStatistic.Date)).ToList();
+                this.incomingStatistics.ToList().Exists(newStatistic => existingStatistic.Date == newStatistic.Date)).ToList();
             this.duplicatesFound = duplicates;
         }
 
@@ -295,9 +295,16 @@ namespace Covid19Analysis
             }
         }
 
-        private void saveFile_Click(object sender, RoutedEventArgs e)
+        private async void saveFile_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            FileSavePicker savePicker = new FileSavePicker {SuggestedStartLocation = PickerLocationId.DocumentsLibrary};
+            savePicker.FileTypeChoices.Add("Comma Separated Values File", new List<string>() { ".csv" });
+            StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                CovidCsvSaver statisticsWriter = new CovidCsvSaver(this.currentStatistics);
+                    await FileIO.WriteTextAsync(file, statisticsWriter.BuildCsvFileContents());
+            }
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Covid19Analysis.Utils
         #region Data members
 
         private readonly MonthlyCovidStatisticsCalculator monthlyCalculator;
-        private readonly string integerFormat = "N0";
-        private readonly string doubleFormat = "N";
+        private const string IntegerFormat = "N0";
+        private const string DoubleFormat = "N";
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace Covid19Analysis.Utils
         /// </summary>
         /// <param name="date">The date.</param>
         /// <returns>the string representation of the day followed by it's suffix</returns>
-        private static string DateWithSuffixToString(DateTime date)
+        private static string dateWithSuffixToString(DateTime date)
         {
             var day = date.Day;
             switch (day)
@@ -57,63 +57,63 @@ namespace Covid19Analysis.Utils
             }
         }
 
-        private string HighestNumberOfPositiveCasesToString(List<CovidStatistic> listOfMonthlyStatistics)
+        private string highestNumberOfPositiveCasesToString(IList<CovidStatistic> listOfMonthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllHighestNumberOfPositiveTests(listOfMonthlyStatistics);
             var highestNumberPositiveCases = statistics.First().PositiveIncrease;
             var output = Environment.NewLine + "Highest Recorded Positive Increase in Cases: " +
-                         highestNumberPositiveCases.ToString(this.integerFormat) + " cases, on the " +
-                         this.FormatMultipleDaysToString(statistics.ToList());
+                         highestNumberPositiveCases.ToString(MonthlyCovidStatisticsReportBuilder.IntegerFormat) + " cases, on the " +
+                         this.formatMultipleDaysToString(statistics.ToList());
             return output;
         }
 
-        private string LowestNumberOfPositiveCasesToString(List<CovidStatistic> listOfMonthlyStatistics)
+        private string lowestNumberOfPositiveCasesToString(IList<CovidStatistic> listOfMonthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllLowestNumberOfPositiveTests(listOfMonthlyStatistics);
             var lowestNumberPositiveCases = statistics.First().PositiveIncrease;
             var output = Environment.NewLine + "Lowest Recorded Positive Increase in Cases: " +
-                         lowestNumberPositiveCases.ToString(this.integerFormat) + " cases, on the " +
-                         this.FormatMultipleDaysToString(statistics.ToList());
+                         lowestNumberPositiveCases.ToString(MonthlyCovidStatisticsReportBuilder.IntegerFormat) + " cases, on the " +
+                         this.formatMultipleDaysToString(statistics.ToList());
             return output;
         }
 
-        private string HighestTotalTestsToString(List<CovidStatistic> listOfMonthlyStatistics)
+        private string highestTotalTestsToString(IList<CovidStatistic> listOfMonthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllHighestTotalOfTests(listOfMonthlyStatistics);
             var highestTotalTests = statistics.First().PositiveIncrease;
             var output = Environment.NewLine + "Highest Total Cases: " +
-                         highestTotalTests.ToString(this.integerFormat) + " cases, on the " +
-                         this.FormatMultipleDaysToString(statistics.ToList());
+                         highestTotalTests.ToString(MonthlyCovidStatisticsReportBuilder.IntegerFormat) + " cases, on the " +
+                         this.formatMultipleDaysToString(statistics.ToList());
             return output;
         }
 
-        private string LowestTotalTestsToString(List<CovidStatistic> listOfMonthlyStatistics)
+        private string lowestTotalTestsToString(IList<CovidStatistic> listOfMonthlyStatistics)
         {
             var statistics = this.monthlyCalculator.FindAllLowestTotalOfTests(listOfMonthlyStatistics);
             var lowestTotalTests = statistics.First().PositiveIncrease;
             var output = Environment.NewLine + "Lowest Total Cases: " +
-                         lowestTotalTests.ToString(this.integerFormat) + " cases, on the " +
-                         this.FormatMultipleDaysToString(statistics.ToList());
+                         lowestTotalTests.ToString(MonthlyCovidStatisticsReportBuilder.IntegerFormat) + " cases, on the " +
+                         this.formatMultipleDaysToString(statistics.ToList());
             return output;
         }
 
-        private string AverageNumberPositiveTestsPerDayToString(List<CovidStatistic> listOfMonthlyStatistics)
+        private string averageNumberPositiveTestsPerDayToString(IList<CovidStatistic> listOfMonthlyStatistics)
         {
             var statistic = this.monthlyCalculator.FindAveragePositiveTests(listOfMonthlyStatistics);
             var output = Environment.NewLine + "Average number of positive tests per day: " +
-                         statistic.ToString(this.doubleFormat);
+                         statistic.ToString(MonthlyCovidStatisticsReportBuilder.DoubleFormat);
             return output;
         }
 
-        private string AverageTotalNumberTestsPerDayToString(List<CovidStatistic> listOfMonthlyStatistics)
+        private string averageTotalNumberTestsPerDayToString(IList<CovidStatistic> listOfMonthlyStatistics)
         {
             var statistic = this.monthlyCalculator.FindAverageTotalTests(listOfMonthlyStatistics);
             var output = Environment.NewLine + "Average number of total tests per day: " +
-                         statistic.ToString(this.doubleFormat);
+                         statistic.ToString(MonthlyCovidStatisticsReportBuilder.DoubleFormat);
             return output;
         }
 
-        private string FindCovidDataByMonthInteger(int month)
+        private string findCovidDataByMonthInteger(int month)
         {
             var monthStatistics = this.monthlyCalculator.FindAllStatisticsInMonth(month);
 
@@ -124,18 +124,18 @@ namespace Covid19Analysis.Utils
                        Environment.NewLine;
             }
 
-            output += this.HighestNumberOfPositiveCasesToString(monthStatistics.ToList());
-            output += this.LowestNumberOfPositiveCasesToString(monthStatistics.ToList());
-            output += this.HighestTotalTestsToString(monthStatistics.ToList());
-            output += this.LowestTotalTestsToString(monthStatistics.ToList());
-            output += this.AverageNumberPositiveTestsPerDayToString(monthStatistics.ToList());
-            output += this.AverageTotalNumberTestsPerDayToString(monthStatistics.ToList());
+            output += this.highestNumberOfPositiveCasesToString(monthStatistics.ToList());
+            output += this.lowestNumberOfPositiveCasesToString(monthStatistics.ToList());
+            output += this.highestTotalTestsToString(monthStatistics.ToList());
+            output += this.lowestTotalTestsToString(monthStatistics.ToList());
+            output += this.averageNumberPositiveTestsPerDayToString(monthStatistics.ToList());
+            output += this.averageTotalNumberTestsPerDayToString(monthStatistics.ToList());
             output += Environment.NewLine;
 
             return output;
         }
 
-        private string FormatMultipleDaysToString(List<CovidStatistic> list)
+        private string formatMultipleDaysToString(IList<CovidStatistic> list)
         {
             var output = "";
             if (list.Count > 1)
@@ -145,19 +145,19 @@ namespace Covid19Analysis.Utils
                     if (list.Last().Equals(statistic))
                     {
                         var day = statistic.Date;
-                        output += "and the " + DateWithSuffixToString(day);
+                        output += "and the " + dateWithSuffixToString(day);
                     }
                     else
                     {
                         var day = statistic.Date;
-                        output += DateWithSuffixToString(day) + ", ";
+                        output += dateWithSuffixToString(day) + ", ";
                     }
                 }
             }
             else
             {
                 var day = list.First().Date;
-                output += DateWithSuffixToString(day);
+                output += dateWithSuffixToString(day);
             }
 
             return output;
@@ -179,14 +179,14 @@ namespace Covid19Analysis.Utils
                     output += Environment.NewLine +
                               CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth) + " " +
                               this.monthlyCalculator.FindYearAssociatedWithMonth(monthStatistics);
-                    output += this.FindCovidDataByMonthInteger(currentMonth);
+                    output += this.findCovidDataByMonthInteger(currentMonth);
                 }
                 else
                 {
                     output += Environment.NewLine +
                               CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth) + " " +
                               this.monthlyCalculator.FindMissingMonthsYear(monthStatistics);
-                    output += this.FindCovidDataByMonthInteger(currentMonth);
+                    output += this.findCovidDataByMonthInteger(currentMonth);
                 }
 
                 currentMonth++;

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
 using Covid19Analysis.Model;
 
 namespace Covid19Analysis.Utils
 {
-    class CovidStatisticsReportBuilder
+    internal class CovidStatisticsReportBuilder
     {
         private readonly OverallCovidStatisticsReportBuilder overallCovidStatisticsStringBuilder;
         private readonly MonthlyCovidStatisticsReportBuilder monthlyCovidStatisticsStringBuilder;

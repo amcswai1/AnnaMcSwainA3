@@ -48,7 +48,7 @@ namespace Covid19Analysis.IO
         /// </summary>
         public IList<CovidStatistic> ParseText(string text)
         {
-            List<CovidStatistic> statistics = new List<CovidStatistic>();
+            IList<CovidStatistic> statistics = new List<CovidStatistic>();
             string[] values = text.Split(new[] {"\r\n", "\r", "\n"},
                 StringSplitOptions.None);
             for (int i = 1; i < values.Length - 1; i++)

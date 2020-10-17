@@ -11,8 +11,8 @@ namespace Covid19Analysis.Utils
 
         private readonly OverallCovidStatisticsCalculator overallCalculator;
         private readonly CovidStatisticsHistogramReportBuilder histogramBuilder;
-        private readonly string integerFormat = "N0";
-        private readonly string doubleFormat = "#,#.##";
+        private const string IntegerFormat = "N0";
+        private const string DoubleFormat = "#,#.##";
         
 
         #endregion
@@ -76,7 +76,7 @@ namespace Covid19Analysis.Utils
             var highestPositiveIncrease = foundStatistic.PositiveIncrease;
             var dateOccurOn = foundStatistic.Date.ToShortDateString();
             var output = Environment.NewLine + "Highest Recorded Positive Increase in Cases: " +
-                         highestPositiveIncrease.ToString(this.integerFormat) + " cases, on " + dateOccurOn;
+                         highestPositiveIncrease.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " cases, on " + dateOccurOn;
             return output;
         }
 
@@ -86,7 +86,7 @@ namespace Covid19Analysis.Utils
             var highestNegativeIncrease = foundStatistic.NegativeIncrease;
             var dateOccurOn = foundStatistic.Date.ToShortDateString();
             var output = Environment.NewLine + "Highest Recorded Negative Increase in Cases: " +
-                         highestNegativeIncrease.ToString(this.integerFormat) + " cases, on " + dateOccurOn;
+                         highestNegativeIncrease.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " cases, on " + dateOccurOn;
             return output;
         }
 
@@ -96,7 +96,7 @@ namespace Covid19Analysis.Utils
             var totalTests = foundStatistic.PositiveIncrease + foundStatistic.NegativeIncrease;
             var dateOccurOn = foundStatistic.Date.ToShortDateString();
             var output = Environment.NewLine + "Highest Recorded Tests Taken: " +
-                         totalTests.ToString(this.integerFormat) + " tests, on " + dateOccurOn;
+                         totalTests.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " tests, on " + dateOccurOn;
             return output;
         }
 
@@ -106,7 +106,7 @@ namespace Covid19Analysis.Utils
             var highestDeaths = foundStatistic.Deaths;
             var dateOccurOn = foundStatistic.Date.ToShortDateString();
             var output = Environment.NewLine + "Highest Recorded Deaths: " +
-                         highestDeaths.ToString(this.integerFormat) + " deaths, on " + dateOccurOn;
+                         highestDeaths.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " deaths, on " + dateOccurOn;
             return output;
         }
 
@@ -116,7 +116,7 @@ namespace Covid19Analysis.Utils
             var highestHospitalizations = foundStatistic.Hospitalized;
             var dateOccurOn = foundStatistic.Date.ToShortDateString();
             var output = Environment.NewLine + "Highest Recorded Hospitalizations: " +
-                         highestHospitalizations.ToString(this.integerFormat) + " deaths, on " + dateOccurOn;
+                         highestHospitalizations.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " deaths, on " + dateOccurOn;
             return output;
         }
 
@@ -126,7 +126,7 @@ namespace Covid19Analysis.Utils
             var highestPercentPositive = foundStatistic.PercentPositiveIncrease;
             var dateOccurOn = foundStatistic.Date.ToShortDateString();
             var output = Environment.NewLine + "Highest Recorded Percent Positive Increase in Cases: " +
-                         highestPercentPositive.ToString(this.doubleFormat) + "% , on " + dateOccurOn;
+                         highestPercentPositive.ToString(OverallCovidStatisticsReportBuilder.DoubleFormat) + "% , on " + dateOccurOn;
             return output;
         }
 
@@ -134,7 +134,7 @@ namespace Covid19Analysis.Utils
         {
             var averagePositive = this.overallCalculator.FindAveragePositiveCasesSinceStart();
             var output = Environment.NewLine + "Average Positive Cases Per Day: " +
-                         averagePositive.ToString(this.doubleFormat) + " cases";
+                         averagePositive.ToString(OverallCovidStatisticsReportBuilder.DoubleFormat) + " cases";
             return output;
         }
 
@@ -142,7 +142,7 @@ namespace Covid19Analysis.Utils
         {
             var averagePositive = this.overallCalculator.FindOverallPositivityRate();
             var output = Environment.NewLine + "Overall Positivity Rate : " +
-                         averagePositive.ToString(this.doubleFormat) + "%";
+                         averagePositive.ToString(OverallCovidStatisticsReportBuilder.DoubleFormat) + "%";
             return output;
         }
 
@@ -150,8 +150,8 @@ namespace Covid19Analysis.Utils
         {
             var daysCount = this.overallCalculator.FindNumberCasesHigherThanLowerBound(upperBoundInput);
             var output = Environment.NewLine + "Number of Days With More Than " +
-                         upperBoundInput.ToString(this.integerFormat) + " Cases: " +
-                         daysCount.ToString(this.integerFormat) + " days";
+                         upperBoundInput.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " Cases: " +
+                         daysCount.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " days";
             return output;
         }
 
@@ -159,8 +159,8 @@ namespace Covid19Analysis.Utils
         {
             var daysCount = this.overallCalculator.FindNumberCasesLowerThanUpperBound(lowerBoundInput);
             var output = Environment.NewLine + "Number of Days With Less Than " +
-                         lowerBoundInput.ToString(this.integerFormat) + " Cases: " +
-                         daysCount.ToString(this.integerFormat) + " days";
+                         lowerBoundInput.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " Cases: " +
+                         daysCount.ToString(OverallCovidStatisticsReportBuilder.IntegerFormat) + " days";
             return output;
         }
 

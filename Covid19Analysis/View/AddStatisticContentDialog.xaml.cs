@@ -1,6 +1,4 @@
-﻿using Windows.UI.Xaml.Controls;
-
-namespace Covid19Analysis.View
+﻿namespace Covid19Analysis.View
 {
     /// <summary>
     /// Represents the AddStatistics content dialog
