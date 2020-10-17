@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Add a COVID-19 Statistic for Georgia"
-    PrimaryButtonText="Submit">
+    PrimaryButtonText="Add Statistic"
+    SecondaryButtonText="Cancel">
 
     <Grid>
         <TextBlock Margin="0,10,8,0" Text="Date" TextWrapping="Wrap" VerticalAlignment="Top"/>
@@ -19,6 +20,5 @@
         <TextBox x:Name ="negativeIncreaseTextBox" HorizontalAlignment="Left" Margin="166,89,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" x:FieldModifier="public"/>
         <TextBox  x:Name ="deathsTextBox" HorizontalAlignment="Left" Margin="165,130,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" x:FieldModifier="public"/>
         <TextBox x:Name ="hospitalizationsTextBox" HorizontalAlignment="Left" Margin="166,175,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" x:FieldModifier="public"/>
-        <TextBlock x:Name ="errorLabel" HorizontalAlignment="Left" Margin="120,228,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" x:FieldModifier="public"/>
     </Grid>
 </ContentDialog>

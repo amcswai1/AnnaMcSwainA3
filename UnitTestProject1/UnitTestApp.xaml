@@ -1,5 +1,5 @@
 ﻿<Application
-    x:Class="UnitTestProject1.App"
+    x:Class="UnitTestCovid19Analysis.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 

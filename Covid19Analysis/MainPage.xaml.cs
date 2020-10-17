@@ -68,6 +68,10 @@ namespace Covid19Analysis
             openPicker.FileTypeFilter.Add(".csv");
             openPicker.FileTypeFilter.Add(".txt");
             StorageFile file = await openPicker.PickSingleFileAsync();
+            if (file == null)
+            {
+                return;
+            }
             string text = await FileIO.ReadTextAsync(file);
             if (this.summaryTextBox.Text == "Summary")
             {
@@ -257,7 +261,6 @@ namespace Covid19Analysis
         {
             var addStatisticContentDialog = new AddStatisticContentDialog();
             var result = await addStatisticContentDialog.ShowAsync();
-           
             if (result == ContentDialogResult.Primary)
             {
                 try
@@ -284,7 +287,6 @@ namespace Covid19Analysis
                     {
                         this.currentStatistics.Add(statistic);
                         this.setCovidDataToSummaryBox();
-
                     }
                 }
                 catch (Exception)
@@ -297,7 +299,6 @@ namespace Covid19Analysis
                     };
                     await error.ShowAsync();
                 }
-                
             }
         }
 

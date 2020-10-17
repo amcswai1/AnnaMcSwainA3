@@ -87,7 +87,7 @@ namespace Covid19Analysis.Model
         public double FindAveragePositiveTests(IList<CovidStatistic> statisticsOfMonth)
         {
             var positiveIncreases = new List<int>();
-            foreach (CovidStatistic statistic in statisticsOfMonth)
+            foreach (var statistic in statisticsOfMonth)
             {
                 positiveIncreases.Add(statistic.PositiveIncrease);
             }
@@ -101,11 +101,12 @@ namespace Covid19Analysis.Model
         public double FindAverageTotalTests(IList<CovidStatistic> statisticsOfMonth)
         {
             var totalTests = new List<int>();
-            foreach (CovidStatistic statistic in statisticsOfMonth)
-            {
-                totalTests.Add(statistic.PositiveIncrease + statistic.NegativeIncrease);
-            }
+                foreach (var statistic in statisticsOfMonth)
+                {
+                    totalTests.Add(statistic.PositiveIncrease + statistic.NegativeIncrease);
+                }
             return totalTests.Average();
+
         }
         /// <summary>
         /// Finds the starting month integer.
